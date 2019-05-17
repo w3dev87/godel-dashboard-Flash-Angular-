@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html style="" class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	{% block head %}
+		{{ compressor("faq_css", inline=False) }}
+	{% endblock %}
+	<script src="/static/faq/modernizr.js"></script> <!-- Modernizr -->
+	<title>Godel Dashboard - FAQ</title>
+</head>
+<body>
+<header>
+	<h1>Frequently Asked Questions</h1>
+	<br>
+	<div class="cd-nugget-info">
+		<a href="/" style="color: #C5C8CB;">
+			<span>
+				<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px" viewBox="0 0 16 16" style="enable-background:new 0 0 16 16;" xml:space="preserve">
+					<style type="text/css">
+						.cd-nugget-info-arrow{fill:#C5C8CB;}
+					</style>
+					<polygon class="cd-nugget-info-arrow" points="15,7 4.4,7 8.4,3 7,1.6 0.6,8 0.6,8 0.6,8 7,14.4 8.4,13 4.4,9 15,9 "></polygon>
+				</svg>
+			</span>
+			Godel Dashboard
+		</a>
+	</div> <!-- cd-nugget-info -->
+</header>
+<section class="cd-faq">
+	<ul style="left: 0px; top: 0px; transform: translateZ(0px);" class="cd-faq-categories">
+		<li><a class="selected" href="#session">Session</a></li>
+		<li><a class="" href="#segments">Segments</a></li>
+		<li><a class="" href="#filters">Filters</a></li>
+	</ul> <!-- cd-faq-categories -->
+
+	<div class="cd-faq-items">
+		<ul id="session" class="cd-faq-group">
+			<li class="cd-faq-title"><h2>Session</h2></li>
+			<li>
+				<a class="cd-faq-trigger" href="#0">How do you define a session?</a>
+				<div class="cd-faq-content">
+					<p>A session begins after user hits 'Pay' on Merchant app. The browser gets initialized and all the redirect pages like PayU, CCAvenues and the bank pages are loaded inside our browser. The session ends when user is redirected back to the merchant.</p>
+				</div> <!-- cd-faq-content -->
+			</li>
+		</ul>
+		<ul id="segments" class="cd-faq-group">
+			<li class="cd-faq-title"><h2>Segments</h2></li>
+			<li>
+				<a class="cd-faq-trigger" href="#0">In payment_instrument_group, what is the difference between card and debit card or card and credit card?</a>
+				<div class="cd-faq-content">
+					<p>The category 'cards' basically contains payment_instruments like HDFC, AXIS, CITI - we do not differentiate between debit and credit card here as both their flows are similar / identical. However, payment instruments like SBI debit card clearly differ from credit cards in their flow. Hence they are segregated into two separate categories.</p>
+				</div> <!-- cd-faq-content -->
+			</li>
+
+			<li>
+				<a class="cd-faq-trigger" href="#0">In payment_instrument_group what is ‘unknown’?</a>
+				<div class="cd-faq-content">
+					<p>Unknown payment_instruments and payment_instrument_groups contain all the smaller banks and e-wallets we have not added support for yet. We do not have the unique identifying factor like URL in these cases, hence they all get clubbed in the 'Unknown' category.</p>
+				</div> <!-- cd-faq-content -->
+			</li>
+
+			<li>
+				<a class="cd-faq-trigger" href="#0">In Segments, we have ‘Success’, ‘Failure’ and ‘Unknown’. What does unknown mean here?</a>
+				<div class="cd-faq-content">
+					<p>These columns refer to the final payment status we receive from merchant response.</p>
+				</div> <!-- cd-faq-content -->
+			</li>
+		</ul> <!-- cd-faq-group -->
+
+		<ul id="filters" class="cd-faq-group">
+			<li class="cd-faq-title"><h2>Filters</h2></li>
+			<li>
+				<a class="cd-faq-trigger" href="#0">On supported payment instruments filter - what is the difference between ‘All’, ‘Only’ and ‘Not’?</a>
+				<div class="cd-faq-content">
+					<p>The three buttons at the top-left refer to three groups of payment instruments:
+					<ul>
+					<li><b>'ONLY'</b> - refer to only supported payment instruments, where we show our fragments / correct keyboard etc.</li>
+                <li><b>'NOT'</b> - refers to payment instruments we do not support. You will notice 'Unknown' is dumped here till we figure out which is what.</li>
+                <li><b>'ALL'</b> - is an overall view - it shows the supported and unsupported ones.</li>
+                </ul>
+					</p>
+				</div> <!-- cd-faq-content -->
+			</li>
+
+			<li>
+				<a class="cd-faq-trigger" href="#0">In the payment_status filter what does ‘Unknown’ stand for?</a>
+				<div class="cd-faq-content">
+					<p>Unknown payment_status is when we do not receive a final transaction status from the merchant or are unable to deduce it from the log data. From our end, we try deduce it from the bank response page and the aggregator response url. However, we rely heavily on the merchant's response URL to deduce the final payment status. If none of these have a clear response, they get clubbed under 'Unknown'.</p>
+				</div> <!-- cd-faq-content -->
+			</li>
+
+			<li>
+				<a class="cd-faq-trigger" href="#0">Authentication_status filter has the following values: ‘Y’, ‘unknown’, ’N’, ‘A’, ‘ERR’ and  ‘U’. What do these values stand for?</a>
+				<div class="cd-faq-content">
+					<p>Below are the authentication statuses. You can read more about it on Page 34 here.<br>
+					<ul>
+					<li><b>'Y'</b> - Authentication Successful</li>
+                	<li><b>'A'</b> - Merchant Attempted authentication</li>
+                <li><b>'U'</b> - Authentication could not be performed</li>
+                <li><b>'N'</b> - Authentication failed</li>
+                <li><b>'ERR'</b> - Error occurred during Authentication.</li>
+                </ul>
+                </p>
+				</div> <!-- cd-faq-content -->
+			</li>
+
+			<li>
+				<a class="cd-faq-trigger" href="#0">What does ‘Experiments’ filter stand for?</a>
+				<div class="cd-faq-content">
+					<p>Experiments actually refer to our Unblockers. We provide help like switching between OTP and password authentication, regenerating OTP, checking registered mobile number etc. These are tailored for specific payment instruments. We add unblockers based on biggest dropout reasons for poorly performing payment instruments on priority and club them here to track their performance.</p>
+				</div> <!-- cd-faq-content -->
+			</li>
+		</ul> <!-- cd-faq-group -->
+
+
+	</div> <!-- cd-faq-items -->
+	<a href="#0" class="cd-close-panel">Close</a>
+</section> <!-- cd-faq -->
+
+<script src="/static/faq/jquery-2.js"></script>
+<script src="/static/faq/jquery.js"></script>
+<script src="/static/faq/main.js"></script>
+<!-- Resource jQuery -->
+
+</body></html>

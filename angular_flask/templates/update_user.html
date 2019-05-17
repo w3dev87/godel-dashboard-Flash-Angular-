@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html lang="en" ng-app="GodelDashboard">
+<head>
+    <meta charset="utf-8">
+    <title>Godel Analytics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block head %}
+      {{ compressor("common_js", inline=False) }}
+      {{ compressor("common_css", inline=False) }}
+    {% endblock %}
+    <link rel="stylesheet" type="text/css" href="/static/css/login_opt.css">
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="jumbotron welcommsg" >
+      <h1>Juspay Analytics</h1>      
+  </div>
+  <div ng-controller="UpdateUserController" class="welcommsg  col-lg-4" style = "margin-left:33.3%;">
+    <h2 style = "color:#7d7d7d;">Change Password</h2>
+    <div class="welcommsg  col-lg-4 loginmodal-container">
+      <form>
+        <input type="text" name="username" id="username" placeholder="Username" class="form-control" ng-model="uname"  ng-click = "hideErr()" />
+        <input type="password" name="oldpassword" id="oldpassword" placeholder="Current Password" class="form-control" ng-model="oldpassword"  ng-click = "hideErr()" />
+        <input type="password" name="newpassword" id="newpassword" placeholder="New Password" class="form-control" ng-model="newpassword"  ng-click = "hideErr()" />
+        <input type="password" name="confirmpassword" id="confirmpassword" placeholder="Confirm Password" class="form-control" ng-model="confirmpassword"  ng-click = "hideErr()" />
+
+        <span class = "pull-left" ng-bind = "regError" style = "font-size: 16px;color: #FF4136;align-items: left;" ng-hide = 'regErrorHide'> </span>
+        <span class = "pull-left" ng-bind = "regMsg" style = "font-size: 16px;color: #00EA12;align-items: left;" ng-hide = 'regMsgHide'> </span>
+        <span class = "pull-left" style = "font-size: 16px;color: #7D7D7D;align-items: left;" ng-hide = 'regMsgHide'> Redirecting to login...</span>
+
+        <input type="submit" name="update" ng-click ="updateUser()" class="loginmodal-submit"  value="Update">
+        <a href="/" class="btn btn-link">Cancel</a>
+      </form>
+    </div>
+  </div>
+</body>

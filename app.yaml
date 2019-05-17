@@ -1,0 +1,46 @@
+application: juspay-analytics-test
+module: default
+version: 35
+runtime: python27
+api_version: 1
+threadsafe: yes
+
+instance_class: F4_1G
+automatic_scaling:
+  min_idle_instances: 2
+  max_idle_instances: automatic
+  min_pending_latency: 30ms
+  max_pending_latency: automatic
+
+
+handlers:
+- url: .*
+  script: runserver.app
+  secure: always
+
+- url: /tasks/reports
+  script: runserver.app
+  login: admin
+  auth_fail_action: unauthorized
+
+- url: /tasks/alerts
+  script: runserver.app
+  login: admin
+  auth_fail_action: unauthorized
+
+- url: /tasks/modifyPageAlerts
+  script: runserver.app
+  login: admin
+  auth_fail_action: unauthorized
+
+- url: /tasks/godelAlerts
+  script: runserver.app
+  login: admin
+  auth_fail_action: unauthorized
+
+libraries:
+- name: "pycrypto"
+  version: "2.6"
+
+- name: ssl
+  version: latest

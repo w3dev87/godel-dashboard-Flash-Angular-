@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="GodelDashboard">
+<head>
+    <meta charset="utf-8">
+    <title>Godel Analytics - 403</title>
+    {% block head %}
+        {{ compressor("common_js", inline=False) }}
+        {{ compressor("common_css", inline=False) }}
+    {% endblock %}
+
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">
+                <img src="data:image/png;base64,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" style="margin: 1px 2px; float:left; display:inline; width:21px;" />
+                Godel<span style="color: #ccc;">Analytics</span><sup><span style="font-size:6px;">beta</span></sup></a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/login" target="_self">Login</a></li>
+                    <li><a href="#/dashboard">Dashboard</a></li>
+                    <li><a href="/faq">FAQ</a></li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+        <div class="container">
+        <div class="jumbotron" style="margin-top: 50px; text-align: center;">
+            <h1><span style="font-size: 100px;">Access Denied</span></h1>
+            <h4>Hmmm, Looks like you don't have enough permissions to access this page.
+            <br>This will be reported.</h4>
+            </div>
+        </div>
+
+</body>
+</html>

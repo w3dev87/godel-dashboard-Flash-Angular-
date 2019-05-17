@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="en" ng-app="GodelDashboard">
+<head>
+    <meta charset="utf-8">
+    <title>Godel Analytics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block head %}
+      {{ compressor("common_js", inline=False) }}
+      {{ compressor("common_css", inline=False) }}
+    {% endblock %}
+    <link rel="stylesheet" type="text/css" href="/static/css/login_opt.css">
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="jumbotron welcommsg" >
+      <h1>Juspay Analytics</h1>      
+  </div>
+  <div ng-controller="RegisterController" class="col-lg-4" style = "margin-left:33.3%;">
+    <h2 style = "text-align:center;color:#7d7d7d;">Add New User </h2>
+    <div class="col-lg-4 loginmodal-container">
+      <form>
+        <input type="text" name="firstName" id="firstName" placeholder = "Full Name" class="form-control" ng-model="fname" ng-click = "hideErr()" />
+        <input type="text" name="username" id="username" placeholder="Username" class="form-control" ng-model="uname"  ng-click = "hideErr()" />
+        <input type="password" name="password" id="password" placeholder="Password" class="form-control" ng-model="password"  ng-click = "hideErr()" />
+        <input type="text" name="appname" id="appname" placeholder="App name" class="form-control" ng-model="appname"  ng-click = "hideErr()" />
+        <div class="row" style="margin-bottom: 10px;">
+          <label style="font-size: 19px;color: #9F9C99;margin-top: 5px" for="select" class="col-lg-2 control-label" >Role </label>
+          <div class="col-lg-10">
+            <select class="form-control" style="font-size: 16px;" id="select" ng-model="role">
+              <option>Admin</option>
+              <option>Juspay</option>
+              <option>Client</option>
+              <option>Bank</option>
+              <option>Pg</option>
+            </select>
+          </div>
+        </div>
+        <span class = "pull-left" ng-bind = "regError" style = "font-size: 16px;color: #FF4136;align-items: left;" ng-hide = 'regErrorHide'> </span>
+        <span class = "pull-left" ng-bind = "regMsg" style = "font-size: 16px;color: #00EA12;align-items: left;" ng-hide = 'regMsgHide'> </span>
+
+        <input type="submit" name="register" ng-click ="registerUser()" class="loginmodal-submit"  value="Register">
+        <a href="/" class="btn btn-link">Cancel</a>
+      </form>
+    </div>
+  </div>
+</body>

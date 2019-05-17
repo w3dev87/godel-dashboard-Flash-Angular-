@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="en" ng-app="GodelDashboard">
+<head>
+    <meta charset="utf-8">
+    <title>Godel Analytics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block head %}
+      {{ compressor("common_js", inline=False) }}
+      {{ compressor("common_css", inline=False) }}
+    {% endblock %}
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/login_opt.css">
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="jumbotron welcommsg" >
+      <h1>Juspay Analytics</h1>
+      <h3>Dive into data, get insights</h3>
+  </div>
+  <div  ng-controller="LoginOptionController" class="col-lg-4"
+      style="margin-left: 33.3%; margin-right: 33.3%; margin-top: 30px;">
+    <button class="full-btn login loginmodal-submit outline" type="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+      Login Using Id
+    </button>
+    <div class="collapse" id="collapseExample">
+      <div class="modal-dialog" style = "width:100%;">
+        <div class="loginmodal-container">
+          <form>
+            <input type="text" name="user" placeholder="Username" ng-model = "user" ng-click = "hideit()">
+            <input type="password" name="pass" placeholder="Password" ng-model = "pass" ng-click = "hideit()">
+            <span class = "pull-left" ng-bind = "errorMessage" style = "font-size: 16px;color: #FF4136;align-items: left;" ng-hide = 'errorhide'> </span>
+            <input type="submit" name="login" ng-click ="postchk()" class="login loginmodal-submit" value="Login">
+          </form>
+          <div class="login-help">
+              <a href="#">Forgot Password</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class=" full-btn login loginmodal-submit outline"  ng-click = "goTo()"type="button" style="margin-top:10px;" data-toggle="collapse"   aria-expanded="false" >
+      Login with Google Account
+    </button>
+    <div style="margin-top:20px; text-align: center;">
+      <p>Or</p>
+
+      <a href="https://godel-dashboard.appspot.com">Try the demo</a>
+    </div>
+  </div>
+</body>

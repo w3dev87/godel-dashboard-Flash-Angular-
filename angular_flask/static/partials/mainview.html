@@ -1,0 +1,593 @@
+<div ng-controller="LoginController">
+  <div class="col-sm-3 col-md-2 sidebar">
+    <div ng-controller="FilterController" id="filterTab">
+      <div class="row float-sidebar">
+        <div ng-controller="ToggleController" id="toggleButton">
+          <div ng-hide="isDisabledFor" >
+            <ul class="nav nav-sidebar" style="margin-left: 0px; margin-bottom: 20px; margin-top: -5px;">
+              <li class="padded"><span class="bolded">Supported Payment Instruments</span></li></ul>
+              <div class="row-fluid btn-group btn-group-justified wider">
+                <label class="btn btn-default btn-xs btn-block caps-and-bold" style="height: 20px;"
+                ng-model="radioModel" btn-radio="'Left'" ng-change="toggleSupported()">ALL</label>
+                <label class="btn btn-default btn-xs btn-block caps-and-bold" ng-model="radioModel" btn-radio="'Middle'" ng-change="toggleSupported()">ONLY</label>
+                <label class="btn btn-default btn-xs btn-block caps-and-bold" ng-model="radioModel" btn-radio="'Right'" ng-change="toggleSupported()">NOT</label>
+              </div>
+            </div>
+          </div>
+          <div class="btn-group btn-group-justified wider" style="margin-top: 10px;">
+            <a href="" class="btn btn-default btn-xs caps-and-bold"  ng-click="clear()" style="width: 0.5%;">CLEAR
+              <i class="fa fa-repeat"></i></a>
+              <a href="" class="btn btn-default btn-xs caps-and-bold"  ng-click="modifyFilter()">APPLY
+                <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <div class="row fixed-list-overflow">
+              <div ng-hide="errors" style="margin-top: 50px;">
+                <accordion close-others="false" class="col-sm-11 col-md-12" style="margin-left:-5px; margin-top: 35px;">
+                  <ul ng-repeat="key in rowOrder" class="nav nav-sidebar" ng-show="key=='app_name'?not_all:true">
+                    <accordion-group is-open='status[key].state' ng-show="status[key].loader" class="dim-styles">
+                      <accordion-heading style="">
+                        <p style="margin: 0px; margin-right: -20px;" class="bolded" id='key' ng-click="filterDim(key)">{{key | uppercase | limitTo:25}}</p>
+                        <i class="pull-right fa" ng-class="{'fa-chevron-up': status[key].state, 'fa-chevron-down': !status[key].state}" style="margin-top:-15px; vertical-align: middle; color: #e5e5e5; margin-right: -10px;" id="{{key+'p'}}" ng-click="filterDim(key)"></i>
+                      </accordion-heading>
+                      <div id="{{key}}">
+                        <input type="checkbox" ng-true-value="1" ng-false-value="0" ng-checked="checkbox == 1" class="extra" />
+                        <span>
+                          <hr style="margin-bottom:2px; margin-top:2px;">
+                        </span>
+                        <div ng-repeat="v in rows[key]" class="checklist">
+                          <span class="spaced-small">
+                            <input type="checkbox" ng-model="check[key+'~'+v.key]" class="{{key}}" id="{{key}}" />
+                            <span style=" top: .5px;">{{v.key || 'unknown' | limitTo:20 }}</span></span>
+                          </div>
+                        </div>
+                      </accordion-group>
+                      <accordion-group is-open='true' ng-hide="status[key].loader" class="dim-styles">
+                        <accordion-heading style="display:inline;">
+                          <p style="margin: 0px; margin-right: -20px;" class="bolded" id='key' ng-click="filterDim(key)">{{key | uppercase | limitTo:25}}</p>
+                          <i class="pull-right fa" ng-class="{'fa-th': status[key].state, 'fa-th': !status[key].state}" style="margin-top:-15px; color: #ebebeb; margin-right: -20px;" id="{{key+'p'}}" ng-click="filterDim(key)"></i>
+                        </accordion-heading>
+                        <div style="text-align:center;">
+                          <!-- <img src="/static/img/loader.gif" alt="Loading..." > -->
+
+                          <div class="loader loader--style7" title="6">
+                            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                            width="24px" height="30px" viewBox="0 0 24 30" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                            <rect x="0" y="0" width="4" height="20" fill="#333">
+                              <animate attributeName="opacity" attributeType="XML"
+                              values="1; .2; 1"
+                              begin="0s" dur="0.6s" repeatCount="indefinite" />
+                            </rect>
+                            <rect x="7" y="0" width="4" height="20" fill="#333">
+                              <animate attributeName="opacity" attributeType="XML"
+                              values="1; .2; 1"
+                              begin="0.2s" dur="0.6s" repeatCount="indefinite" />
+                            </rect>
+                            <rect x="14" y="0" width="4" height="20" fill="#333">
+                              <animate attributeName="opacity" attributeType="XML"
+                              values="1; .2; 1"
+                              begin="0.4s" dur="0.6s" repeatCount="indefinite" />
+                            </rect>
+                          </svg>
+                        </div>
+
+
+                      </div>
+                    </accordion-group>
+                  </ul>
+                </accordion>
+              </div>
+              <div ng-show="errors">
+                <span class="label label-danger">No Data Present For Selected Criteria</span>
+              </div>
+            </div>
+          </div>
+          <div id="filterLoader">
+  <!-- <div style="text-align:center;" class="loader float-sidebar">
+  <img src="/static/img/loader.gif" alt="Loading..." > -->
+    </div>
+</div>
+</div>
+<div class="col-sm-9 col-sm-offset-2  col-md-10 col-md-offset-2" style="margin-top:10px;margin-right:5px;">
+  <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" class="alert-float-top">{{alert.msg}}
+  </alert>
+  <div class="row" style="margin-left: 5px; margin-right: 5px;">
+        <textarea rows="1" class="form-control qwhere" ng-model="user.where_text" ng-init="user.where_text=''" ng-hide="hide2||errors"  placeholder="QUERY-WHERE" ng-focus="addition()" typeahead-on-select="suggest($item)" typeahead="pref for pref in datalists | filter:$viewValue | limitTo:400"/></textarea>
+   
+    <div ng-controller="ClientsController">
+      <script type="text/ng-template" id="acuteSelect.html">
+        <div class="ac-select-wrapper" ng-keydown="keyHandler($event)" tabindex="999" ac-focus="wrapperFocus" ng-focus="comboFocus = true">
+          <div ng-class="{'ac-select-main':true, 'ac-select-main-closed':!popupVisible, 'ac-select-main-open':popupVisible}" ng-click="mainClick($event)"
+      ng-style="{'minWidth': settings.minWidth }">
+            <table class="ac-select-table" ng-click="togglePopup($event)">
+              <tr>
+                <td class="ac-select-display">
+                    <div class="ac-select-text-wrapper" ng-show="settings.comboMode">
+                        <input type="text" class="ac-select-text" ng-model="comboText" ac-focus="comboFocus" ac-select-on-focus ng-change="comboTextChange()"
+                            placeholder="{{settings.placeholderText}}" watermark="{{settings.placeholderText}}" />
+                    </div>
+                    <span ng-hide="settings.comboMode">{{confirmedItem.text}}</span>
+                </td>
+                <td class="fa fa-chevron-down fa-2 pull-right"></td>
+              </tr>
+            <!--Row to get the control width right, using the original select or the longest item text. Hidden at runtime.-->
+              <tr class="ac-select-widener">
+                <td class="ac-select-longest">&nbsp;{{longestText}}</td>
+                <td></td>
+              </tr>
+            </table>
+          </div>
+          <div class="ac-select-popup" ng-show="popupVisible" ng-style="{'minWidth': settings.minWidth }">
+            <div class="ac-select-search-wrapper" ng-hide="settings.comboMode || !settings.showSearchBox">
+              <table>
+                  <tr>
+                      <td>
+                          <input type="text" class="ac-select-search" ng-model="searchText" placeholder="search" ac-focus="searchBoxFocus" ac-select-on-focus
+                              ng-change="findData()" ng-keydown="keyHandler($event)" />
+                      </td>
+                      <td class="ac-select-add" ng-class="{ 'ac-select-disabled': matchFound }" title="Add" ng-show="settings.allowCustomText" ng-click="addButtonClick()">
+                          <div>+</div>
+                      </td>
+                  </tr>
+              </table>
+            </div>
+            <div class="ac-select-no-items" ng-show="noItemsFound">{{settings.noItemsText}}</div>
+            <div class="ac-select-list" ng-style='{ "height": (listHeight + 6) + "px" }' ac-scroll-to="scrollTo" ac-on-scroll="listScrolled()">
+              <ul>
+                  <li id="{{item.id}}" ng-repeat="item in items | filter: search" 
+                      ng-class="getItemClass($index)" ng-click="itemClick($index)" ng-style="{ height: settings.itemHeight + 'px', 'line-height': settings.itemHeight + 'px' }">
+                      {{item.text}}
+                  </li>
+              </ul>
+              <div class="ac-select-loading" ng-show="loading" ng-style="{ height: settings.itemHeight + 'px'}">Loading...</div>
+            </div>
+            <div class="ac-select-load-more" ng-show="allDataLoaded===false">
+              {{items.length}} items<!-- of {{matchingItemTotal}}--> 
+              <span ng-click="loadMore()">{{loadMessage}}</span>
+            </div>
+          </div>
+        </div>
+      </script> 
+      <h3 class="sub-header col-md-4" ng-show="hide2">Client: {{prop}}</h3>
+      <div ng-controller="DateChangeController" id="reportrange" class="col-md-4 form-control pull-right date-range" >
+          <i class="fa fa-calendar"></i>
+          <span></span> <b class="caret"></b>
+      </div>
+      <div class="col-md-3 pull-right" style="height: 34px;z-index: 50;padding: 0px;" >
+         <ac-select class = "pull-right" ng-hide="hide" ac-model="defaultClient" ac-options="for client in getAllClients()" ac-change="switchClient(value)" style="width:80%;"></ac-select>
+      </div>
+  </div>
+</div>
+<div  ng-controller="CountsController">
+  <div class="container col-lg-12 col-md-12" ng-show="show" style="margin-top: 10px;">
+    <div class="row">
+      <div id="selector" class="top-legend" style="margin-left:6%;margin-top:1%;">
+        <input type=checkbox id="0" ng-click="changeviz($event)" ng-checked="isChecked[0]" >
+        <label for="0" style="color:#47b8e0;">Success</label>
+        <input type=checkbox id="1" ng-click="changeviz($event)" ng-checked="isChecked[1]"  >
+        <label for="1" style="color:#ff7473;">Failure</label>
+        <input type=checkbox id="2" ng-click="changeviz($event)" ng-checked="isChecked[2]" >
+        <label for="2" style="color:#09B900;">Success Rate</label>
+        <input type=checkbox id="3" ng-click="changeviz($event)" ng-checked="isChecked[3]" >
+        <label for="3" style="color:#ACACAC;">Total Sessions</label>
+        <input type=checkbox id="4" ng-click="changeviz($event)" ng-checked="isChecked[4]" >
+        <label for="4" style="color:#7189ea;">Godel Coverage</label>
+        <input type=checkbox id="5" ng-click="changeviz($event)" ng-checked="isChecked[5]" >
+        <label for="5" style="color:#9055A2;">Median OTP Latency</label>
+        <input type=checkbox id="6" ng-click="changeviz($event)" ng-checked="isChecked[6]" >
+        <label for="6" style="color:#F17F42;">Median Session Latency</label>
+      </div>
+      <div class="col-sm-9 col-lg-9 col-md-9" style = "height:275px;margin-top:1%;padding:0px;"id= "dydygraphs"></div>
+      <div  class ="col-sm-3 col-lg-3 col-md-3" style = "right: 40px;">
+        <div class="precoverlay avgsucc" style = "text-align: right;" >Average Success</div>
+        <div id = "donutchart" style = "margin-top: -40px;">
+          <svg id = "donutsvg" ></svg>
+        </div>
+        <button class="btn btn-md btn-primary" style="display: block;margin-left: 38%;margin-right: auto;margin-top: -13%;"ng-click = "dyRange()">Update Segment</button>
+      </div>
+    </div>
+  </div>
+  <div ng-show="errors">
+    <span class="label label-danger">No Data Present For Selected Criteria</span>
+  </div>
+  <div id="countLoader" ng-hide="errors">
+    <div heading="Loading..." id="countLoader" class='tab-pane fade-in' style="margin-left: 50%;">
+      <div style="text-align:center; margin-top: 30px;" class="loader">
+        <!-- <img src="/static/img/loader.gif" alt="Loading..."> -->
+        <div class="loader loader--style7" title="6">
+          <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+          width="24px" height="30px" viewBox="0 0 24 30" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+          <rect x="0" y="0" width="4" height="20" fill="#333">
+            <animate attributeName="opacity" attributeType="XML"
+            values="1; .2; 1"
+            begin="0s" dur="0.6s" repeatCount="indefinite" />
+          </rect>
+          <rect x="7" y="0" width="4" height="20" fill="#333">
+            <animate attributeName="opacity" attributeType="XML"
+            values="1; .2; 1"
+            begin="0.2s" dur="0.6s" repeatCount="indefinite" />
+          </rect>
+          <rect x="14" y="0" width="4" height="20" fill="#333">
+            <animate attributeName="opacity" attributeType="XML"
+            values="1; .2; 1"
+            begin="0.4s" dur="0.6s" repeatCount="indefinite" />
+          </rect>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<div ng-controller="SegmentsController" class="col-md-12" style="top: 20px;">
+  <h3 class="sub-header">Segments</h3>
+  <form ng-model="add_tab" ng-submit="switch()" ng-show="show_add_tab" class="form-inline" style="padding-bottom: 10px; border-bottom: 1px solid #efefef; margin-bottom: 10px;">
+    <input id="customSegInput" type="text" class="form group form-control" id="new_field" ng-model='newf' style="width: 80%; margin-right: 10px;"
+    placeholder="Custom segment, enter a new segment or a comma separated pair"/>
+    <button class="btn btn-primary btn-sm">Add Segment</button>
+  </form>
+  <span id="graphList1" class="aGraph" style="width:300px; height:60px;"></span>
+  <div ng-hide="errors">
+    <scrollable-tabset show-tooltips="true" watch-expression="tabs">
+      <tabset id="segmentTable">
+        <tab ng-repeat="key in tabs" ng-click="changeTab(key)" >
+          <tab-heading>{{key}}
+            <i ng-show="show" ng-style="{'padding-left':10}">
+              <sup><sup>
+                <span ng-style="{'font-size':10}">
+                  <a ng-style={'color':'#999999'} ng-click="delTab(key)" ng-show="key=='+'?false:true" href='' class="fa fa-times"></a>
+                </span>
+              </sup></sup>
+            </i>
+          </tab-heading>
+          <div class="table-responsive" ng-show="show_table">
+            <table class="table table-bordered table-striped text-align-center scaled-small">
+            </div>
+            <thead>
+              <tr>
+                <th colspan="1" ><input type="text" ng-model="searchKeyword" class="form-control" placeholder="Filter" ng-keyup="filter_out(searchKeyword)" ng-style="{'width': '100%'}"></th>
+                <th colspan="4" class="text-align-center">Sessions</th>
+                <th colspan="1" class="text-align-center">Authentication</th>
+                <th colspan="7" class="text-align-center">Transaction Conversions</th>
+                <th colspan="3" class="text-align-center">Success Conversions</th>
+              </tr>
+              <tr>
+                <th class="text-align-center" ng:class = "selectedCls('value')"><a href="javascript:void(0);" ng-click="changeSorting('value')">{{key}}</th>
+                <th class="text-align-center" ng:class="selectedCls('t_count')" ><a href="javascript:void(0);" ng-click="changeSorting('t_count')">Total</a></th>
+                <th class="text-align-center" ng:class="selectedCls('volume_perc')" ><a href="javascript:void(0);" ng-click="changeSorting('volume_perc')">Volume</a></th>
+                <th class="text-align-center" ng:class="selectedCls('latency_tp50')"><a href="javascript:void(0);" ng-click="changeSorting('latency_tp50')">Latency</a></th>
+                <th class="text-align-center" ng:class="selectedCls('is_godel_succ_rate')"><a href="javascript:void(0);" ng-click="changeSorting('is_godel_succ_rate')">Godel</a></th>
+                  <!-- <th class="text-align-center" ng:class="selectedCls('auth_y')"><a href= "javascript:void(0);" ng-click="changeSorting('auth_y')">Success</a></th>
+                  <th class="text-align-center" ng:class="selectedCls('auth_n')"><a href= "javascript:void(0);" ng-click="changeSorting('auth_n')">Failure</a></th>
+                  <th class="text-align-center" ng:class="selectedCls('auth_u')"><a href= "javascript:void(0);" ng-click="changeSorting('auth_u')">Unknown</a></th> -->
+                  <th class="text-align-center" ng:class="selectedCls('a_succ_rate')"><a href="javascript:void(0);" ng-click="changeSorting('a_succ_rate')">Success Rate</a></th>
+                  <th class="text-align-center" ng:class="selectedCls('pay_s')"><a href="javascript:void(0);" ng-click="changeSorting('pay_s')">Success</a></th>
+                  <th class="text-align-center" ng:class="selectedCls('pay_f')"><a href="javascript:void(0);" ng-click="changeSorting('pay_f')">Failure</a></th>
+                  <th class="text-align-center" ng:class="selectedCls('pay_u')"><a href="javascript:void(0);" ng-click="changeSorting('pay_u')">Unknown</a></th>
+                  <th colspan='2' class="text-align-center" ng:class="selectedCls('p_succ_rate7')"><a href="javascript:void(0);" ng-click="changeSorting('p_succ_rate7')">Last 7 days</a></th>
+                  <th colspan='2' class="text-align-center" ng:class="selectedCls('p_succ_rate14')"><a href="javascript:void(0);" ng-click="changeSorting('p_succ_rate14')">Last 14 days</a></th>
+                  <th class="text-align-center" ng:class="selectedCls('mp_succ_rate')"><a href="javascript:void(0);" ng-click="changeSorting('mp_succ_rate')">Merchant Success Rate</a></th>
+                  <th class="text-align-center" ng:class="selectedCls('p_succ_rate')"><a href="javascript:void(0);" ng-click="changeSorting('p_succ_rate')">Success Rate</a></th>
+                  <th class="text-align-center">Top Dropouts</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!--tr ng-repeat="val in rows[key]| filter:searchKeyword | orderBy:sort.column:sort.descending | limitTo:rows[key].length>=len?limit:'Infinity'" ng-class="{'danger': (val.pay_s/val.t_count * 100 <= 30), 'warning':  (val.pay_s/val.t_count * 100 > 30 && val.pay_s/val.t_count *   100 < 50)}"-->
+                <tr ng-repeat="val in rows[key]| orderBy:sort.column:sort.descending | limitTo:rows[key].length>=limit?limit:len | filter:check_presence(value)"
+                  ng-class="{'danger': (val.pay_s/val.t_count * 100 <= 30 || val.is_godel_succ_rate <= 30), 'warning':  ((val.pay_s/val.t_count * 100 > 30 && val.pay_s/val.t_count *   100 < 50) || (val.is_godel_succ_rate > 30 &&
+                  val.is_godel_succ_rate < 50 ))}">
+                  <td ng-show="val.value == ' NULL'?false:show" class="max-ellipsis">
+                    <a href="javascript:void(0);" ng-click="getSegmentCount('all',key,val.value)">{{val.value == ' NULL'?'Unknown':val.value}}</a></td>
+                    <td ng-hide="val.value == ' NULL'?false:show">{{val.value == ' NULL'?'Unknown':val.value}}</td>
+                    <td><a href="javascript:void(0);" ng-click="isDisabledFor || getSessions('all',key,val.value)">{{val.t_count}}</a></td>
+                    <td>{{val.volume_perc | number: fractionSize=2}}%</td>
+                    <td>{{val.latency_tp50/1000 |  secToTimeFormat}}</td>
+                    <td>{{val.is_godel_succ_rate | number: fractionSize=2}}%</td>
+                  <!-- <td><a href="javascript:void(0);" ng-click="getSessions('auth_y',key,val.value);open('lg');">{{val.auth_y}}</a></td>
+                  <td><a href="javascript:void(0);" ng-click="getSessions('auth_n',key,val.value);open('lg');">{{val.auth_n}}</a></td>
+                  <td><a href="javascript:void(0);" ng-click="getSessions('auth_u',key,val.value);open('lg');">{{val.auth_u}}</a></td> -->
+                  <td>{{val.a_succ_rate | number: fractionSize=2}}% </td>
+                  <td><a href="javascript:void(0);" ng-click="isDisabledFor||getSessions('pay_s',key,val.value);">{{val.pay_s}}</a></td>
+                  <td><a href="javascript:void(0);" ng-click="isDisabledFor||getSessions('pay_f',key,val.value);">{{val.pay_f}}</a></td>
+                  <td><a href="javascript:void(0);" ng-click="isDisabledFor||getSessions('pay_u',key,val.value);">{{val.pay_u}}</a></td>
+                  <td style="width:25px;"><span linear-chart chart-data="val.data7" namespan="val.value" typespan="7"></span></td>
+                  <td>{{val.p_succ_rate7 ? (val.p_succ_rate7 | number : fractionSize=2)+"%":'null'}}</td>
+                  <td style="width:50px;"><span linear-chart chart-data="val.data14" namespan="val.value"></span></td>
+                  <td>{{val.p_succ_rate14 ? (val.p_succ_rate14 | number : fractionSize=2)+"%":'null'}}</td>
+                  <td>{{val.mp_succ_rate | number: fractionSize=2}}%</td>
+                  <td>{{val.p_succ_rate | number: fractionSize=2}}%</td>
+                  <td>
+                    <a href="javascript:void(0);" tooltip-html-unsafe="{{val.dropout_res}}">{{val.max}}</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!--button ng-click="delTab()" class="btn btn-default btn-xs pull-right" ng-style="{'margin-left':'90%'}" ng-show="show_table">delete tab!</button-->
+          <a href="javascript:void(0);" ng-click="showLess()" class="btn btn-default btn-xs pull-right" ng-disabled="disable_sl" ng-show="rows[key].length>=len?true:false">Show less
+            <i class="fa fa-compress"></i></a>
+            <a href="javascript:void(0);" ng-click="showMore()" class="btn btn-default btn-xs pull-right" ng-disabled="disable_sm" style="margin-right:5px;" ng-show="rows[key].length>=len?true:false">Show more
+              <i class="fa fa-expand"></i></a>
+              <a href="javascript:void(0);" ng-show="!isDisabledFor"class="btn btn-default btn-xs pull-right" style="margin-right:15px;" ng-csv="startDownload()" csv-header="headerJson()" lazy-load="true" ng-show="rows[key].length>0?true:false" filename="{{client}}-sessions-{{from}}-to-{{to}}.csv" field-separator="," confirmrqrd="true" ng-disabled="disable">{{text}}&nbsp;<span class="fa fa-download"></span></a>
+              <a href="javascript:void(0);" class="btn btn-default btn-xs pull-right" style="margin-right:15px;" ng-csv="downloadView()" csv-header="TableHeaderJson()" lazy-load="true" ng-show="rows[key].length>0?true:false" filename="{{client}}-sessions-{{from}}-to-{{to}}.csv" field-separator="," confirmrqrd="true" ng-disabled="disable2">{{text2}}&nbsp;<span class="fa fa-download"></span></a>
+            </tab>
+          </tabset>
+        </scrollable-tabset>
+      </div>
+      <div ng-show="errors">
+        <span class="label label-danger">No Data Present For Selected Criteria</span><br />
+        <hr />
+        <div>Oops. Segment has no matching data. <button class="btn btn-default btn-xs" ng-click="changeTab(tabs[0])">Reset</button> view.</div>
+      </div>
+      <div id="segmentLoader" ng-hide="errors">
+       <br><br><br>
+       <div heading="Loading..." id="countLoader" class='tab-pane fade-in' style="margin-left: 50%;">
+        <div style="text-align:center;" class="loader">
+          <!-- <img src="/static/img/loader.gif" alt="Loading..."> -->
+          <div class="loader loader--style7" title="6">
+            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+            width="24px" height="30px" viewBox="0 0 24 30" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+            <rect x="0" y="0" width="4" height="20" fill="#333">
+              <animate attributeName="opacity" attributeType="XML"
+              values="1; .2; 1"
+              begin="0s" dur="0.6s" repeatCount="indefinite" />
+            </rect>
+            <rect x="7" y="0" width="4" height="20" fill="#333">
+              <animate attributeName="opacity" attributeType="XML"
+              values="1; .2; 1"
+              begin="0.2s" dur="0.6s" repeatCount="indefinite" />
+            </rect>
+            <rect x="14" y="0" width="4" height="20" fill="#333">
+              <animate attributeName="opacity" attributeType="XML"
+              values="1; .2; 1"
+              begin="0.4s" dur="0.6s" repeatCount="indefinite" />
+            </rect>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div ng-controller="SessionController"> 
+  <script type="text/ng-template" id="sessionModalContent.html">
+    <div id="sessionTable">
+      <div class="row modal-header">
+        <h3 class="col-lg-6 modal-title">{{header}}</h3>
+        <div class="btn-group pull-right" style="margin-right:10px;">
+          <a href="javascript:;" class="btn btn-default dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span></a>
+          <ul class="dropdown-menu" style="max-height:400px;overflow-y: scroll;">
+            <li ng-repeat="column in columns" ng-click="$event.stopPropagation()">
+              <label style="margin-left:10px;">
+                <input type="checkbox" ng-model="column.visible" /> {{columnNames[column.name]}}
+              </label>
+            </li>
+            <li class="divider"></li>
+            <li><center><button class="btn btn-primary btn-xs" style="margin-bottom: 10px;">DONE</button></center></li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="float:clear;"></div>
+      <div class="modal-body table-responsive" style="overflow-x: scroll; width: 98%;">
+        <table class="table table-striped table-bordered">
+          <thead>
+            <th class="text-align-center">#</th>
+            <th class="text-align-center" ng-show="columns[14].visible">Timestamp</th>
+            <th class="text-align-center" ng-show="columns[13].visible">Session ID</th>
+            <th class="text-align-center" ng-show="columns[10].visible">Transaction ID / Order ID</th>
+            <th class="text-align-center" ng-show="columns[12].visible">Payment Status</th>
+            <th class="text-align-center" ng-show="columns[15].visible">Authentication Status</th>
+            <th class="text-align-center" ng-show="columns[8].visible">Network</th>
+            <th class="text-align-center" ng-show="columns[1].visible">Latency</th>
+            <th class="text-align-center" ng-show="columns[9].visible">Pages</th>
+            <th class="text-align-center" ng-show="columns[0].visible">Auth Method</th>
+            <th class="text-align-center" ng-show="columns[2].visible">Card Brand</th>
+            <th class="text-align-center" ng-show="columns[3].visible">Device ID</th>
+            <th class="text-align-center" ng-show="columns[6].visible">Godel Status</th>
+            <th class="text-align-center" ng-show="columns[7].visible">Last URL</th>
+            <th class="text-align-center" ng-show="columns[11].visible">Phone</th>
+            <th class="text-align-center" ng-show="columns[5].visible">Email</th>
+            <th class="text-align-center" ng-show="columns[4].visible">Dropout Reason</th>
+
+
+          </thead>
+          <tbody>
+            <tr ng-repeat="item in pagedItems[currentPage] | orderBy: 'stime': true" class="text-align-center">
+              <td>{{(currentPage*itemsPerPage)+$index+1}}</td>
+              <td class="wrap-ellipsis" ng-show="columns[14].visible">{{item.stime}}</td>
+              <td class="wrap-ellipsis" ng-show="columns[13].visible==true ? show : false"><a href="{{r_url}}{{item.sid}}" target="_blank">{{item.sid}}</a></td>
+              <td class="wrap-ellipsis" ng-show="columns[13].visible==true ? !show : false">{{item.sid}}</td>
+              <td ng-show="columns[10].visible">{{item.txn_id || item.order_id}}</td>
+              <td ng-show="columns[12].visible">{{item.pstat}}</td>
+              <td ng-show="columns[15].visible">{{item.zauth_status}}</td>
+              <td ng-show="columns[8].visible">{{item.net}}</td>
+              <td ng-show="columns[1].visible">{{item.avglat | msToTimeFormat}}</td>
+              <td ng-show="columns[9].visible">{{item.nump}}</td>
+              <td ng-show="columns[0].visible">{{item.auth}}</td>
+              <td ng-show="columns[2].visible">{{item.cbrand}}</td>
+              <td ng-show="columns[3].visible">{{item.d_id}}</td>
+              <td ng-show="columns[6].visible">{{item.godel}}</td>
+              <!--<td class="wrap-ellipsis" style="cursor:pointer" popover="{{item.lurl}}">{{item.lurl}}</td> -->
+              <td class="wrap-ellipsis" ng-show="columns[7].visible"><a href="{{item.lurl}}" target="_blank">{{item.lurl}}</a></td>
+              <td ng-show="columns[11].visible">{{item.phone}}</td>
+              <td ng-show="columns[5].visible">{{item.email}}</td>
+              <td ng-show="columns[4].visible">{{item.dropout_reasons}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="row">
+          <div class="col-md-7">
+            <pagination total-items="totalItems" ng-model="tempCurrentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" items-per-page="itemsPerPage" rotate="false" num-pages="numPages" ng-change="setPage();"></pagination>
+          </div>
+          <div class="col-md-3 pull-right" style="margin-top: 20px;">
+            <button class="btn btn-default btn-xs" ng-csv="dataJson" lazy-load="true" filename="sessions-{{fdate}}.csv" csv-header="headerJson()" field-separator=",">Export Data <span class="fa fa-download"></span></button>
+            <button class="btn btn-default btn-xs" ng-click="ok()">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </script>
+</div>
+<div ng-controller="SegmentMetricController">
+  <script type="text/ng-template" id="segmentMetricModalContent.html">
+   <div id="segmentMetricTable">
+    <div class="modal-header">
+      <button type="button" class="close" ng-click="cancel()">&times;</button>
+      <h3 class="modal-title ">{{header}}</h3>
+    </div>
+    <div class="modal-body row jumbotron" style="padding:0px; padding-bottom: 5px; margin:0px; border-bottom: 1px solid #efefef;" >
+      <div id="chart3" class='panel-info col-md-9'>
+        <svg class='chart_svg' style="height: 211px;" id="chart3_svg">
+        </svg>
+      </div>
+      <div class="panel-info col-md-3" style="margin-top: 20px; padding-left:0px;">
+        <div class="panel-heading">
+          <h4 class="panel-title">Success Rate as on {{date | date:'yyyy-MM-dd'}}</h4>
+        </div>
+
+        <div class="list-group">
+          <a href="" ng-class="{'active':key === selectedExtent}"ng-click="changeExtent(key)"  ng-repeat="(key,val) in report" class="list-group-item">
+            <span class="badge">{{val | number: fractionSize=2}}%</span>
+            Last {{key}} days
+          </a>
+
+        </div>
+      </div>
+    </div>
+    <div class="modal-body row" style="padding-top:0px;padding-bottom:0px;">
+      <div id="dropReasonLoader" class="panel col-md-4">
+        <div style="text-align:center;" class="loader panel-body">
+          <!-- <img src="/static/img/loader.gif" alt="Loading..."> -->
+          <div class="loader loader--style7" title="6">
+            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+            width="24px" height="30px" viewBox="0 0 24 30" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+            <rect x="0" y="0" width="4" height="20" fill="#333">
+              <animate attributeName="opacity" attributeType="XML"
+              values="1; .2; 1"
+              begin="0s" dur="0.6s" repeatCount="indefinite" />
+            </rect>
+            <rect x="7" y="0" width="4" height="20" fill="#333">
+              <animate attributeName="opacity" attributeType="XML"
+              values="1; .2; 1"
+              begin="0.2s" dur="0.6s" repeatCount="indefinite" />
+            </rect>
+            <rect x="14" y="0" width="4" height="20" fill="#333">
+              <animate attributeName="opacity" attributeType="XML"
+              values="1; .2; 1"
+              begin="0.4s" dur="0.6s" repeatCount="indefinite" />
+            </rect>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div id="dropReasonTab" class="well-sm col-md-4" style="display: None">
+      <div ng-hide="errors" class="with-3d-shadow with-transitions">
+        <svg id="chart4" style="height: 260px !important;width:300px !important;"></svg>
+      </div>
+      <div ng-show="errors"><center>
+        <div class="panel-heading">
+          <h4 class="panel-title">Dropout Reason</h4>
+        </div>
+        <span class="label label-danger">No Data Present For Selected Criteria</span></center>
+      </div>
+    </div>
+
+    <div>
+      <div class="table-responsive" style="margin-top: 20px;margin-left: 0px; padding-left:0px;max-height:240px;overflow-y: auto;">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Dropout Reason</th>
+              <th>#</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="itr in table_rows">
+              <td>{{itr.key || "NULL"}}</td>
+              <td>{{itr.y || "No data available."}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</script>
+</div>
+
+<script type="text/ng-template" id="loadingModalContent.html">
+  <div class="modal-body" >
+    <div style="text-align:center;">
+      <!-- <img src="/static/img/loading.gif" alt="Loading..."> -->
+      <div class="loader loader--style7" title="6">
+        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+        width="24px" height="30px" viewBox="0 0 24 30" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+        <rect x="0" y="0" width="4" height="20" fill="#333">
+          <animate attributeName="opacity" attributeType="XML"
+          values="1; .2; 1"
+          begin="0s" dur="0.6s" repeatCount="indefinite" />
+        </rect>
+        <rect x="7" y="0" width="4" height="20" fill="#333">
+          <animate attributeName="opacity" attributeType="XML"
+          values="1; .2; 1"
+          begin="0.2s" dur="0.6s" repeatCount="indefinite" />
+        </rect>
+        <rect x="14" y="0" width="4" height="20" fill="#333">
+          <animate attributeName="opacity" attributeType="XML"
+          values="1; .2; 1"
+          begin="0.4s" dur="0.6s" repeatCount="indefinite" />
+        </rect>
+      </svg>
+    </div>
+  </div>
+</div>
+</script>
+
+
+<div ng-controller="FunnelController" class="col-md-12" style="top: 20px;">
+<h3 class="sub-header" ng-hide="errors">Funnels | <select class="selectpicker dropd"
+    style="margin-left:6px; margin-top: 10px; padding: 10px; font-size: 14px; display: inline;"
+    name="pi" ng-model="pi" ng-change = "createFunnel(pi)" id="pi_for_funnel">
+    <option ng-repeat="value in rows" value="{{ value }}" >{{ value }}</option>
+  </select></h3>
+  <div ng-hide="errors">
+    <div class="col-lg-12 col-md-12" id="dummy2"></div>
+    <div ng-hide="sankeyHide">
+      <div class="col-lg-12 col-md-12" id="funnelSankey"></div>
+    </div>
+    <div>
+    </div>
+    <div ng-show="errors">
+      <span class="label label-danger">No Data Present For Selected Criteria</span>
+    </div>
+    <div id="funnelLoader" ng-hide="errors">
+      <div heading="Loading..." id="countLoader" class='tab-pane fade-in' style="margin-left: 50%;">
+        <div style="text-align:center;" class="loader">
+          <!-- <img src="/static/img/loader.gif" alt="Loading..."> -->
+          <div class="loader loader--style7" title="6">
+            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+            width="24px" height="30px" viewBox="0 0 24 30" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+            <rect x="0" y="0" width="4" height="20" fill="#333">
+              <animate attributeName="opacity" attributeType="XML"
+              values="1; .2; 1"
+              begin="0s" dur="0.6s" repeatCount="indefinite" />
+            </rect>
+            <rect x="7" y="0" width="4" height="20" fill="#333">
+              <animate attributeName="opacity" attributeType="XML"
+              values="1; .2; 1"
+              begin="0.2s" dur="0.6s" repeatCount="indefinite" />
+            </rect>
+            <rect x="14" y="0" width="4" height="20" fill="#333">
+              <animate attributeName="opacity" attributeType="XML"
+              values="1; .2; 1"
+              begin="0.4s" dur="0.6s" repeatCount="indefinite" />
+            </rect>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>

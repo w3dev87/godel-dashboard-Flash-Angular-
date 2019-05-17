@@ -1,0 +1,41 @@
+cron:
+- description: Alerts every 1 hr
+  url: /cron/runcron?at=1%20hr&key=aMkrBw3VFJX1izx65234wbp73krF7fC5
+  schedule: every 1 hours
+
+- description: Alerts every 3 hrs
+  url: /cron/runcron?at=3%20hrs&key=aMkrBw3VFJX1izx65234wbp73krF7fC5
+  schedule: every 3 hours
+
+- description: Alerts every 6 hrs
+  url: /cron/runcron?at=6%20hrs&key=aMkrBw3VFJX1izx65234wbp73krF7fC5
+  schedule: every 6 hours
+
+
+- description: Alerts every 12 hrs
+  url: /cron/runcron?at=12%20hrs&key=aMkrBw3VFJX1izx65234wbp73krF7fC5
+  schedule: every 12 hours
+
+- description: Alerts every Day
+  url: /cron/runcron?at=Day&key=aMkrBw3VFJX1izx65234wbp73krF7fC5
+  schedule: every day 02:30
+
+- description: Alerts every Week
+  url: /cron/runcron?at=Week&key=aMkrBw3VFJX1izx65234wbp73krF7fC5
+  schedule: every monday 02:30
+
+- description: Alerts
+  url: /tasks/successAlerts
+  schedule: every 6 hours
+
+- description: Pagemod Alerts
+  url: /tasks/modifyPageAlerts
+  schedule: every 8 hours
+
+- description: Godel Alerts
+  url: /tasks/godelAlerts
+  schedule: every 23 hours
+
+- description: Alerts
+  url: /tasks/billtoday
+  schedule: every day 3:30

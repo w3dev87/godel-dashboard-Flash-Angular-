@@ -1,0 +1,12 @@
+*.pyc
+venv
+*~
+.DS_Store
+ignore
+angular_flask/lib/
+angular_flask/bower_components
+angular_flask/login_config.py
+.idea
+.pem
+*.pem
+

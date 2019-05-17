@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="GodelDashboard">
+<head>
+	<meta charset="utf-8">
+	<title>Godel Analytics</title>
+
+    {% block head %}
+        {{ compressor("adm_js", inline=False) }}
+        {{ compressor("adm_css", inline=False) }}
+    {% endblock %}
+
+</head>
+<body>
+{% raw %}
+	<script type="text/javascript">
+  		function getCookie(name) {
+    		var re = new RegExp(name + "=([^;]+)");
+    		var value = re.exec(document.cookie);
+    		return (value != null) ? unescape(value[1]) : null;
+  		}
+	</script>
+	<div ng-controller="NavController">
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">
+                <img src="data:image/png;base64,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" style="margin: 1px 2px; float:left; display:inline; width:21px;" />
+                Godel<span style="color: #ccc;">Analytics</span><sup><span style="font-size:6px;">beta</span></sup></a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="/login" target="_self">Login</a></li>
+					<li><a href="/#/dashboard">Dashboard</a></li>
+					<li><a href="/realtime" ng-hide="hide">Realtime</a></li>
+					<li class="dropdown"><a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"><script type="text/javascript">document.write(getCookie("email").replace(/"/g, ""));</script> <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+          				<li ng-hide="hide"><a href="/admin">Admin</a></li>
+          				<li ng-hide="hide"><a href="/custom_query">Query</a></li>
+          				<li><a>Logout</a></li>
+        				</ul>
+        			</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	</div>
+
+<!-- QUERY CONTROLLER -->
+<!-- QUERY CONTROLLER -->
+	<div ng-controller="QueryController">
+		<fieldset style="margin-top:50px;margin-left:20px;margin-right:20px;">
+        <legend>Custom Query</legend><br>
+		<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" style="margin-left:200px;margin-right:200px;">{{alert.msg}}</alert>
+
+        <tabset style="margin-top:-20px;">
+        	<!-- TAB-1 -->
+        	<!-- TAB-1 -->
+            <tab heading="View" id="2" class='tab-pane fade-in active' ng-click="openTab(2)">
+                	<div class="col-lg-2" style="margin-top:10px;">
+	                    <script type="text/ng-template" id="loadingModalContent.html">
+	                    <div class="modal-body">
+	                    <div style="text-align:center;">
+	                    <img src="/static/img/loading.gif" alt="Loading...">
+	                    </div>
+	                    </div>
+	                    </script>
+                    <table class="table table-striped table-hover">
+                      	<thead>
+                        <tr>
+                        <th>ID</th>
+                        <th>Select</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                    	<tr ng-repeat="itr in parent.row">
+                        <td  style="word-wrap: break-word;max-width:160px;">{{itr.query_id}}</td>
+                        <td style=""><input class="padded" name="group" type="radio" ng-model='parent.check' value="{{itr}}" ng-change="select_query()"> </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                	</div>
+
+                	<div style="width:10px;height:400px;float:left;" class="col-lg-1">
+                	</div>
+
+                	<div class="col-lg-9">
+                    <div class="table-reponsive" style="margin-top: 20px;margin-left: 0px; padding-left:0px;overflow-y: auto;">
+                    <table class="table table-striped table-hover table-bordered" class="table">
+            			 <thead>
+        			     <tr>
+			        	 <th ng-repeat="(x,v) in parent.column" style="border: 1px solid #dddddd;border-collapse: separate;border-left: none;border-right: none;" ><a href= "" ng-click="parent.reverse=!parent.reverse;order(x, parent.reverse)">{{ v | uppercase}}</a></th>
+        			     </tr>
+            			 </thead>
+
+            			 <tbody>
+                		 <tr ng-repeat="itr in parent.pagedItems[parent.currentPage-1]">
+            		     <td ng-repeat="(v,x) in itr" style="border: 1px solid #dddddd;
+						 border-collapse: separate;border-left: none;border-right: none;">{{x}}</td>
+                		 </tr>
+                		 </tbody>
+            			 </table>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="pull-right" style="float: right;">
+                        <button class="btn btn-default" style="" ng-click="del_query()" ng-hide="parent.hide">Delete Query</button>
+                        </div>
+                        <pagination total-items="totalItems" ng-model="parent.currentPage" max-size="maxSize" ng-hide="parent.hide"></pagination>
+                    </div>
+
+				</div>
+    		</tab>
+        	<!-- END TAB-1 -->
+        	<!-- END TAB-1 -->
+
+        	<!-- TAB-2 -->
+        	<!-- TAB-2 -->
+    		<tab heading="Add New" id="1" class='tab-pane fade-in' ng-click="openTab(1)">
+				<form class="form-horizontal" ng-submit="customQuery()"><br>
+
+					<div class="row form-group">
+	  			  	<label for="inputKey" class="col-lg-1 control-label">Key</label>
+				    <div class="col-lg-11">
+	    		   	<input type="text" class="form-control" id="inputKey" ng-model="parent.key" placeholder="Key" ng-required="true">
+			      	</div>
+		    		</div><br>
+
+					<div class="row form-group" style="height:100px;">
+	    			<label for="inputQuery" class="col-lg-1 control-label">Input Query</label>
+	      			<div class="col-lg-11">
+      	 		    <textarea class="form-control" id="textareaEdit" ng-model="parent.textareaValue" id="inputQuery" placeholder="Enter Query" ng-required="true" style="height:100px;"></textarea>
+      			  	</div>
+		    		</div>
+
+	    			<div class="row form-group" style="margin-top:10px;">
+	      			<div class="col-lg-10 col-lg-offset-1" style="margin-top:10px;">
+                    <button type="submit" class="btn btn-default">Add Query</button>
+	                <div class="btn btn-default" style="margin-left:20px;" ng-click="test()">Test Query</div>
+	    	  		</div>
+	    			</div>
+
+	    		<script type="text/ng-template" id="loadingModalContent.html">
+      				<div class="modal-body">
+        			<div style="text-align:center;">
+          			<img src="/static/img/loading.gif" alt="Loading...">
+        			</div>
+      				</div>
+    			</script>
+
+	    		<div class="table-reponsive" style="margin-top: 20px;margin-left: 0px; padding-left:0px;overflow-y: auto;">
+            		<table class="table table-striped table-hover table-bordered" class="table">
+	            		<thead>
+        			    <tr>
+    			      	<th ng-repeat="(x,v) in parent.column" style="border: 1px solid #dddddd;border-collapse: separate;border-left: none;border-right: none;" ><a href= "" ng-click="parent.reverse=!parent.reverse;order(x, parent.reverse)">{{ v | uppercase}}</a></th>
+        			    </tr>
+            			</thead>
+
+            			<tbody>
+            		 	<tr ng-repeat="itr in parent.pagedItems[parent.currentPage-1]">
+            		    <td ng-repeat="(v,x) in itr" style="border: 1px solid #dddddd;
+						border-collapse: separate;border-left: none;border-right: none;">{{x}}</td>
+                		</tr>
+                		</tbody>
+            		</table>
+        		</div>
+
+                <pagination total-items="totalItems" ng-model="parent.currentPage" max-size="maxSize" ng-hide="parent.hide">
+                </pagination>
+
+         		</form>
+           	</tab>
+        	<!-- END TAB-2 -->
+        	<!-- END TAB-2 -->
+
+		</tabset>
+
+		</fieldset>
+	</div>
+{% endraw %}
+</body>
+</html>
+

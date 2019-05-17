@@ -1,0 +1,86 @@
+(select 'godel_version' as attr_name, godel_version as attr_val, count(session_id) as cnt , avg(latency)/1000 as avg_lat from [godel_logs.godel_session_bkup] where app_name='redBus' group by attr_val)	, (select 'authentication_status' as auth_name, authentication_status as auth_sts, 'payment_status' as pay_name, payment_status as pay_sts, avg(numpages) as avg_page, sum(numpages) as sum_page from [godel_logs.godel_session_bkup] group by attr_val, auth_sts, pay_sts;
+
+
+
+select attr_n1, attr_v1, attr_n2, t_cnt, attr_n3, avg_lat, attr_n4, auth_y, attr_n5, auth_n, attr_n6, auth_u, attr_n7, pay_s, attr_n8, pay_f, attr_n9, pay_u, attr_n10, avg_page, attr_n11, sum_page from
+
+(select 'payment_instrument' as attr_n1, payment_instrument as attr_v1, 'count' as attr_n2, count(session_id) as t_cnt
+, 'avg' as attr_n3, avg(latency)/1000 as avg_lat, 'auth_y' as attr_n4, sum(case when authentication_status = 'Y' THEN 1 ELSE 0 END) as auth_y, 'auth_n' as attr_n5,
+sum(case when authentication_status = 'N' THEN 1 ELSE 0 END) as auth_n, 'auth_u' as attr_n6, sum(case when authentication_status in ('A',
+'U', '') THEN 1 ELSE 0 END) as auth_u, 'pay_s' as attr_n7, sum(case when payment_status = 'SUCCESS' THEN 1 ELSE 0 END) as pay_s, 'pay_f' as attr_n8, sum(case
+when payment_status = 'FAILURE' THEN 1 ELSE 0 END) as pay_f, 'pay_u' as attr_n9, sum(case when payment_status in ('') THEN 1 ELSE 0 END) as
+pay_u, 'avg_plat' as attr_n10, avg(numpages) as avg_page, 'num_page' as attr_n11, sum(numpages) as sum_page from [godel_logs.godel_session_bkup] where app_name =
+"redBus" group by attr_v1),
+
+(select 'payment_instrument_group' as attr_n1, payment_instrument_group as attr_v1, 'count' as attr_n2, count(session_id) as t_cnt
+, 'avg' as attr_n3, avg(latency)/1000 as avg_lat, 'auth_y' as attr_n4, sum(case when authentication_status = 'Y' THEN 1 ELSE 0 END) as auth_y, 'auth_n' as attr_n5,
+sum(case when authentication_status = 'N' THEN 1 ELSE 0 END) as auth_n, 'auth_u' as attr_n6, sum(case when authentication_status in ('A',
+'U', '') THEN 1 ELSE 0 END) as auth_u, 'pay_s' as attr_n7, sum(case when payment_status = 'SUCCESS' THEN 1 ELSE 0 END) as pay_s, 'pay_f' as attr_n8, sum(case
+when payment_status = 'FAILURE' THEN 1 ELSE 0 END) as pay_f, 'pay_u' as attr_n9, sum(case when payment_status in ('') THEN 1 ELSE 0 END) as
+pay_u, 'avg_plat' as attr_n10, avg(numpages) as avg_page, 'num_page' as attr_n11, sum(numpages) as sum_page from [godel_logs.godel_session_bkup] where app_name =
+"redBus" group by attr_v1),
+
+(select 'godel_version' as attr_n1, godel_version as attr_v1, 'count' as attr_n2, count(session_id) as t_cnt
+, 'avg' as attr_n3, avg(latency)/1000 as avg_lat, 'auth_y' as attr_n4, sum(case when authentication_status = 'Y' THEN 1 ELSE 0 END) as auth_y, 'auth_n' as attr_n5,
+sum(case when authentication_status = 'N' THEN 1 ELSE 0 END) as auth_n, 'auth_u' as attr_n6, sum(case when authentication_status in ('A',
+'U', '') THEN 1 ELSE 0 END) as auth_u, 'pay_s' as attr_n7, sum(case when payment_status = 'SUCCESS' THEN 1 ELSE 0 END) as pay_s, 'pay_f' as attr_n8, sum(case
+when payment_status = 'FAILURE' THEN 1 ELSE 0 END) as pay_f, 'pay_u' as attr_n9, sum(case when payment_status in ('') THEN 1 ELSE 0 END) as
+pay_u, 'avg_plat' as attr_n10, avg(numpages) as avg_page, 'num_page' as attr_n11, sum(numpages) as sum_page from [godel_logs.godel_session_bkup] where app_name =
+"redBus" group by attr_v1),
+
+(select 'network' as attr_n1, network as attr_v1, 'count' as attr_n2, count(session_id) as t_cnt
+, 'avg' as attr_n3, avg(latency)/1000 as avg_lat, 'auth_y' as attr_n4, sum(case when authentication_status = 'Y' THEN 1 ELSE 0 END) as auth_y, 'auth_n' as attr_n5,
+sum(case when authentication_status = 'N' THEN 1 ELSE 0 END) as auth_n, 'auth_u' as attr_n6, sum(case when authentication_status in ('A',
+'U', '') THEN 1 ELSE 0 END) as auth_u, 'pay_s' as attr_n7, sum(case when payment_status = 'SUCCESS' THEN 1 ELSE 0 END) as pay_s, 'pay_f' as attr_n8, sum(case
+when payment_status = 'FAILURE' THEN 1 ELSE 0 END) as pay_f, 'pay_u' as attr_n9, sum(case when payment_status in ('') THEN 1 ELSE 0 END) as
+pay_u, 'avg_plat' as attr_n10, avg(numpages) as avg_page, 'num_page' as attr_n11, sum(numpages) as sum_page from [godel_logs.godel_session_bkup] where app_name =
+"redBus" group by attr_v);
+
+
+
+
+(select 'payment_instrument_group' as attr_name, payment_instrument_group as attr_val, count(session_id) as cnt , avg(latency)/1000 as avg_lat, sum(case when authentication_status = 'Y' THEN 1 ELSE 0 END) as auth_y, sum(case when authentication_status = 'N' THEN 1 ELSE 0 END) as auth_n, sum(case when authentication_status in ('A', 'U', '') THEN 1 ELSE 0 END) as auth_u, sum(case when payment_status = 'SUCCESS' THEN 1 ELSE 0 END) as pay_s, sum(case when payment_status = 'FAILURE' THEN 1 ELSE 0 END) as pay_f, sum(case when payment_status in ('') THEN 1 ELSE 0 END) as pay_u, avg(numpages) as avg_page, sum(numpages) as sum_page
+from [godel_logs.godel_session_bkup] where app_name = "redBus" group by attr_val),
+
+(select 'network' as attr_name, network as attr_val, count(session_id) as cnt , avg(latency)/1000 as avg_lat, sum(case when authentication_status = 'Y' THEN 1 ELSE 0 END) as auth_y, sum(case when authentication_status = 'N' THEN 1 ELSE 0 END) as auth_n, sum(case when authentication_status in ('A', 'U', '') THEN 1 ELSE 0 END) as auth_u, sum(case when payment_status = 'SUCCESS' THEN 1 ELSE 0 END) as pay_s, sum(case when payment_status = 'FAILURE' THEN 1 ELSE 0 END) as pay_f, sum(case when payment_status in ('') THEN 1 ELSE 0 END) as pay_u, avg(numpages) as avg_page, sum(numpages) as sum_page
+from [godel_logs.godel_session_bkup] where app_name = "redBus" group by attr_val),
+
+(select 'godel_version' as attr_name, godel_version as attr_val, count(session_id) as cnt , avg(latency)/1000 as avg_lat, sum(case when authentication_status = 'Y' THEN 1 ELSE 0 END) as auth_y, sum(case when authentication_status = 'N' THEN 1 ELSE 0 END) as auth_n, sum(case when authentication_status in ('A', 'U', '') THEN 1 ELSE 0 END) as auth_u, sum(case when payment_status = 'SUCCESS' THEN 1 ELSE 0 END) as pay_s, sum(case when payment_status = 'FAILURE' THEN 1 ELSE 0 END) as pay_f, sum(case when payment_status in ('') THEN 1 ELSE 0 END) as pay_u, avg(numpages) as avg_page, sum(numpages) as sum_page
+from [godel_logs.godel_session_bkup] where app_name = "redBus" group by attr_val);
+
+
+
+
+
+SELECT 'bank' as attr_1, bank, 'funnel' as attr_2, funnel, 'count' as attr_3, count(session_id) as cnt FROM [godel_logs.godel_session_bkup] group by bank, funnel order by bank;
+
+		# bq_query = "SELECT corpus, count(word_count) as cnt FROM [publicdata:samples.shakespeare] GROUP BY corpus LIMIT 10;"
+		# bq_query = """
+		# 	SELECT substr(starttime,1,10) as dt, count(session_id) FROM [godel_logs.godel_session] where app_name = "redBus" group by dt order by dt;
+		# 	"""
+		# bq_query = """
+		# select attr_name, attr_value, cnt from 
+		# (select 'payment_status' as attr_name, payment_status as attr_value, count(*) as cnt from [godel_logs.godel_session_bkup] 
+		# group by attr_value),(select 'authentication_status' as attr_name, authentication_status as attr_value, count(*) as cnt 
+		# from [godel_logs.godel_session_bkup] group by attr_value),(select 'app_version' as attr_name, app_version as attr_value, 
+		# count(*) as cnt from [godel_logs.godel_session_bkup] group by attr_value),(select 'payment_instrument_group' as attr_name, 
+		# payment_instrument_group as attr_value, count(*) as cnt from [godel_logs.godel_session_bkup] group by attr_value),
+		# (select 'network' as attr_name, network as attr_value, count(*) as cnt from [godel_logs.godel_session_bkup] 
+		# group by attr_value),(select 'payment_instrument' as attr_name, payment_instrument as attr_value, count(*) as cnt 
+		# from [godel_logs.godel_session_bkup] group by attr_value);
+		# """
+
+
+SELECT t_attr,  t_val, dt from
+  (SELECT 'Sessions' as t_attr, 'count' as c_attr, INTEGER(count(session_id)) as c_val, 'at' as dt_attr, TIMESTAMP_TO_MSEC(TIMESTAMP(substr(starttime,1,10))) as dt  FROM [godel_logs.godel_session]
+  where app_name="{app_name}" and substr(starttime,1,10) >="{start}" and substr(starttime,1,10)< "{end}"  
+  group by dt order by dt),
+  (SELECT 'Success' as t_attr, 'count' as c_attr, sum(case when payment_status = "SUCCESS" THEN 1 ELSE 0 END) as t_val, 'at' as dt_attr, TIMESTAMP_TO_MSEC(TIMESTAMP(substr(starttime,1,10))) as dt  FROM [godel_logs.godel_session]
+  where app_name="{app_name}" and substr(starttime,1,10) >="{start}" and substr(starttime,1,10)< "{end}"  
+  group by dt order by dt),
+  (SELECT 'Failure' as t_attr, 'count' as c_attr, sum(case when payment_status = "FAILURE" THEN 1 ELSE 0 END) as t_val, 'at' as dt_attr, TIMESTAMP_TO_MSEC(TIMESTAMP(substr(starttime,1,10))) as dt  FROM [godel_logs.godel_session]
+  where app_name="{app_name}" and substr(starttime,1,10) >="{start}" and substr(starttime,1,10)< "{end}"  
+  group by dt order by dt),
+  (SELECT 'Pages' as t_attr, 'count' as c_attr, sum(numpages) as t_val, 'at' as dt_attr, TIMESTAMP_TO_MSEC(TIMESTAMP(substr(starttime,1,10))) as dt  FROM [godel_logs.godel_session]
+  where app_name="{app_name}" and substr(starttime,1,10) >="{start}" and substr(starttime,1,10)< "{end}"  
+  group by dt order by dt);

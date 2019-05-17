@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="GodelDashboard">
+<head>
+	<meta charset="utf-8">
+	<title>Godel Analytics</title>
+
+    {% block head %}
+        {{ compressor("adm_js", inline=False) }}
+        {{ compressor("adm_css", inline=False) }}
+    {% endblock %}
+
+</head>
+<body>
+{% raw %}
+	<script type="text/javascript">
+  		function getCookie(name) {
+    		var re = new RegExp(name + "=([^;]+)");
+    		var value = re.exec(document.cookie);
+    		return (value != null) ? unescape(value[1]) : null;
+  		}
+	</script>
+	<div ng-controller="NavController">
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">
+				<img src="data:image/png;base64,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" style="margin: 1px 2px; float:left; display:inline; width:21px;" />
+				Godel<span style="color: #ccc;">Analytics</span><sup><span style="font-size:6px;">beta</span></sup></a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="/login" target="_self">Login</a></li>
+					<li><a href="/#/dashboard">Dashboard</a></li>
+					<li><a href="/realtime" ng-hide="hide">Realtime</a></li>
+					<li class="dropdown"><a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"><script type="text/javascript">document.write(getCookie("email").replace(/"/g, ""));</script> <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+          				<li ng-hide="hide"><a href="/admin">Admin</a></li>
+          				<li ng-hide="hide"><a href="/custom_query">Query</a></li>
+                        <li><a href="/faq">FAQ</a></li>
+          				<li><a>Logout</a></li>
+        				</ul>
+        			</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	</div>
+
+<div ng-controller="AdminController">
+
+	<fieldset style="margin-top:80px; margin-left: 5%; margin-right: 5%;">
+	<tabset type="pills">
+	<tab heading="User Management" id="usrmgmt">
+	<hr />
+	<tabset>
+    <tab heading="Add / Delete" id="1" class='tab-pane fade-in active' style="margin-top:8px;">
+	<form class="form-horizontal" style="width:400px;margin-left:40px;margin-top:20px;float:left" ng-submit="add()">
+
+	    <div class="form-group">
+	    	<label for="inputEmail" class="col-lg-2 control-label">Email</label>
+	      	<div class="col-lg-10">
+	        <input type="email" class="form-control" id="inputEmail" ng-model="parent.email" placeholder="Email" ng-required="true">
+	      	</div>
+	    </div>
+	    <div class="form-group" ng-hide="parent.email[0]=='*'">
+	     	<label for="select" class="col-lg-2 control-label">Roles</label>
+	      	<div class="col-lg-10">
+	        <select class="form-control" id="select" ng-model="parent.role">
+	          <option>Admin</option>
+	          <option>Juspay</option>
+	          <option>Client</option>
+	          <option>Bank</option>
+	          <option>Pg</option>
+
+	        </select>
+	      	</div>
+	    </div>
+
+	    <div class="form-group">
+	      	<div class="col-lg-10 col-lg-offset-2">
+	        <button type="submit" class="btn btn-default">Add New User</button><br><br>
+	       	</div>
+	    </div>
+
+  		<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+
+	</form>
+
+	<form class="form-horizontal" style="width:400px;margin-left:100px;margin-top:0px;float:left;" ng-submit="del()">
+	    <div class="table-responsive" style="width: 150%; max-height: 400px; overflow-y: auto;">
+    		<table class="table table-striped table-hover">
+  				<thead>
+    				<tr>
+				      <th>Email</th>
+				      <th>Appname</th>
+				      <th>Role</th>
+				      <th style="text-align:center">Select</th>
+    				</tr>
+  				</thead>
+  				<tbody>
+				    <tr ng-repeat="v in parent.row">
+				    	<td>{{v.email}}</td>
+				    	<td>{{v.appname}}</td>
+				    	<td>{{v.role}}</td>
+				    	<td style="text-align:center"><input class="padded" type="checkbox" ng-model='parent.c[v.email]' name="{{v.email}}" ng-hide="v.email == parent.user_email"> </td>
+				    	<td>{{user_email}}</td>
+					</tr>
+  				</tbody>
+			</table>
+		</div><br>
+
+	    <div class="form-group">
+	      	<div class="col-lg-12 pull-right">
+	        <button type="submit" class="btn btn-default">Delete User</button>
+	      	</div>
+	    </div>
+	</form>
+	</tab>
+
+	<tab heading="Config" id="2" class='tab-pane fade-in' style="margin-top:8px;">
+	<form class="form-horizontal" style="width:400px;margin-left:40px;margin-top:20px;float:left" ng-submit="edit()">
+	    <div class="form-group">
+	      	<label for="editEmail" class="col-lg-2 control-label">Email</label>
+	      	<div class="col-lg-10">
+	        <input type="email" class="form-control" id="editEmail" ng-model="parent.edit_email" placeholder="Email" ng-required="true" readonly="true">
+	      	</div>
+	    </div>
+
+	    <div class="form-group">
+	      	<label for="inputAppname" class="col-lg-2 control-label">Appname</label>
+	      	<div class="col-lg-10">
+	        <input type="text" class="form-control" id="inputAppname" ng-model="parent.edit_appname" placeholder="Appname">
+	      	</div>
+	    </div>
+
+	    <div class="form-group" ng-hide="parent.edit_email[0]=='*' || parent.edit_email == parent.user_email">
+	      	<label for="editselect" class="col-lg-2 control-label">Roles</label>
+	      	<div class="col-lg-10">
+	        <select class="form-control" id="editselect" ng-model="parent.edit_role">
+	          <option>Admin</option>
+	          <option>Juspay</option>
+	          <option>Client</option>
+	          <option>Bank</option>
+	          <option>Pg</option>
+	        </select>
+	      	</div>
+	    </div>
+	    <div class="form-group">
+	      	<label for="inputTimeFormat" class="col-lg-2 control-label">Time Format</label>
+	      	<div class="col-lg-10">
+	      	<select class="form-control" id="timeformat" ng-model="parent.edit_timeformat">
+	          <option>UTC</option>
+	          <option>IST</option>
+	        </select>
+	      	</div>
+	    </div>
+
+
+	    <div class="form-group">
+	      	<div class="col-lg-10 col-lg-offset-2">
+	        <button type="submit" class="btn btn-md btn-primary">Edit</button><br><br>
+	        </div>
+	    </div>
+  		<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+
+	</form>
+
+	<form class="form-horizontal" style="width:400px;margin-left:100px;margin-top:0px;float:left;" ng-submit="del()">
+	    <div class="table-responsive" style="width: 150%; 	max-height:400px;overflow-y: auto;">
+    		<table class="table table-striped table-hover ">
+  				<thead>
+    				<tr>
+				      <th>Email</th>
+				      <th>Appname</th>
+				      <th>Role</th>
+				      <th>Time Format</th>
+    				</tr>
+  				</thead>
+  				<tbody>
+				    <tr ng-repeat="v in parent.row">
+				    	<td>{{v.email}}</td>
+				    	<td>{{v.appname}}</td>
+				    	<td >{{v.role}}</td>
+				    	<td>{{v.timeformat}}</td>
+				    	<td style="text-align:center"><input class="padded" name="group" type="radio" ng-model='parent.x' value="{{v.email}}" ng-change="select_email()"> </td>
+					</tr>
+  				</tbody>
+			</table>
+		</div>
+	</form>
+
+	</tab>
+	</tabset>
+	</tab>
+
+	<!-- ALERTS TAB -->
+	<!-- ALERTS TAB -->
+
+	<tab heading="Alerts" ng-controller="AlertsController">
+			<script type="text/ng-template" id="loadingModalContent.html">
+		    <div class="modal-body">
+		    <div style="text-align:center;">
+		    <img src="/static/img/loading.gif" alt="Loading...">
+		    </div>
+		    </div>
+		    </script>
+		    	<hr />
+	<tabset>
+
+		<tab name="s" heading="Schedule" id="1" class='tab-pane fade-in active' active="is_active" style="margin-top:8px;">
+			<form class="form-horizontal" ng-submit="scheduleAlert()"><br>
+
+				<!-- KEY -->
+				<!-- KEY -->
+				<div class="form-group">
+	      		<label for="cron_key" class="col-lg-1 control-label">Alert Identifier</label>
+	      		<div class="col-lg-11">
+	        	<input type="text" class="form-control" id="cron_key" ng-model="parent.row.key" placeholder="Key" required="true">
+	      		</div>
+	    		</div>
+
+	    		<!-- QUERY -->
+	    		<!-- QUERY -->
+				<div class="form-group">
+	      		<label for="textArea" class="col-lg-1 control-label">Query</label>
+	      		<div class="col-lg-11">
+	        	<textarea class="form-control" rows="5" id="textArea" ng-model="parent.row.query" ng-required="true"></textarea>
+	        	<!-- <span class="help-block">Query ^</span> -->
+	      		</div>
+	    		</div>
+
+	    		<!-- TIME -->
+	    		<!-- TIME -->
+	    		<div class="form-group col-lg-3" >
+	    		<label for="select" class="col-lg-4 control-label">Run Every</label>
+	      		<div class="col-lg-8">
+	        	<select class="form-control" id="select" ng-model="parent.row.at">
+	          	<option>1 hr</option>
+	          	<option>3 hrs</option>
+	          	<option>6 hrs</option>
+	          	<option>12 hrs</option>
+	          	<option>Day</option>
+	          	<option>Week</option>
+	        	</select>
+	      		</div>
+	    		</div>
+
+	    		<!-- COLUMN -->
+	    		<!-- COLUMN -->
+	    		<div class="form-group col-lg-5" ng-show="parent.row.type=='Report'?false:true">
+	      		<label for="column_name" class="col-lg-3 control-label">Column Name</label>
+	      		<div class="col-lg-9">
+	        	<input type="text" class="form-control" id="column_name" ng-model="parent.row.column_name" ng-required="parent.type=='Report'?false:true" >
+	      		</div>
+	    		</div>
+
+	    		<!-- THRESHOLD -->
+	    		<!-- THRESHOLD -->
+	    		<div class="form-group col-lg-5" ng-show="parent.row.type=='Report'?false:true">
+	      		<label for="threshold" class="col-lg-3 control-label">Threshold</label>
+	      		<div class="col-lg-9">
+	        	<input type="text" class="form-control" id="threshold" ng-model="parent.row.threshold" ng-required="parent.type=='Report'?false:true" placeholder="INTEGER or FLOAT">
+	      		</div>
+	    		</div>
+
+
+	    		<div class="form-group" name='asd'></div>
+
+	    		<!-- TYPE -->
+	    		<!-- TYPE -->
+	    		<div class="form-group col-lg-4" >
+	    		<label for="select2" class="col-lg-3 control-label">Type</label>
+	      		<div class="col-lg-9">
+	        	<select class="form-control" id="select2" ng-model="parent.row.job_type">
+	          	<option>Alert</option>
+	          	<option>Report</option>
+				<option>Callalert</option>
+	        	</select>
+	      		</div>
+	    		</div>
+
+	    		<!-- RECIPIENTS -->
+	    		<!-- RECIPIENTS -->
+	    		<div class="form-group col-lg-4" >
+	    		<label for="select3" class="col-lg-3 control-label">Recipients</label>
+	      		<div class="col-lg-9">
+	        	<select class="form-control" id="select3" ng-model="parent.row.recipient">
+	          	<option>team@juspay.in</option>
+	          	<option>godel@juspay.in</option>
+	          	<option>analytics@juspay.in</option>
+	          	<option>sev2@juspay.in</option>
+	          	<option>Other</option>
+	        	</select>
+	      		</div>
+	    		</div>
+
+	    		<!-- OTHER -->
+	    		<!-- OTHER -->
+	    		<div class="form-group col-lg-5" ng-show="parent.row.recipient == 'Other'? true: false">
+	      		<label for="other" class="col-lg-3 control-label">Other</label>
+	      		<div class="col-lg-9">
+	        	<input type="text" class="form-control" id="other" ng-model="parent.row.other" ng-required="parent.row.recipient == 'Other'? true: false" placeholder="email list">
+	      		</div>
+	    		</div>
+
+	    		<!-- BUTTONS -->
+	    		<!-- BUTTONS -->
+	    		<div class="form-group">
+	    	  	<div class="col-lg-10 col-lg-offset-1">
+	        	<button type="reset" class="btn btn-default" ng-click="clear()">Reset Form </button>
+	        	<button type="button" class="btn btn-default" ng-click="test()">Test Query </button>
+	        	<button type="submit" class="btn btn-default" >{{buttonText}}</button>
+	      		</div>
+	    		</div>
+
+	    		<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" style="margin-left:200px;margin-right:200px;">{{alert.msg}}</alert>
+
+	    		<div class="table-reponsive" style="margin-top: 20px;margin-left: 0px; padding-left:0px;overflow-y: auto;">
+	            		<table class="table table-striped table-hover table-bordered" class="table">
+		            		<thead>
+	        			    <tr>
+	    			      	<th ng-repeat="(x,v) in parent.column" style="border: 1px solid #dddddd;border-collapse: separate;border-left: none;border-right: none;" >{{v}}</th>
+	    			      	<!-- <a href= "" ng-click="parent.reverse=!parent.reverse;order(x, parent.reverse)">{{ v }}</a> -->
+	        			    </tr>
+	            			</thead>
+
+	            			<tbody>
+	            		 	<tr ng-repeat="itr in parent.pagedItems[parent.currentPage-1]">
+	            		    <td ng-repeat="(v,x) in itr" style="border: 1px solid #dddddd;
+							border-collapse: separate;border-left: none;border-right: none;">{{x}}</td>
+	                		</tr>
+	                		</tbody>
+	            		</table>
+	        		</div>
+
+	                <pagination total-items="totalItems" ng-model="parent.currentPage" max-size="maxSize" ng-hide="parent.hide">
+	                </pagination>
+			</form>
+		</tab>
+
+		<tab heading="View/Remove" id="2" class='tab-pane fade-in' ng-click="listAlerts()" style="margin-top:8px;">
+		    <div class="table-reponsive" style="max-height:300px;overflow-y: scroll;">
+			<table class="table table-striped table-hover" >
+		      	<thead>
+		        <tr>
+		        <th>Key</th>
+		        <!-- <th>Query</th> -->
+		        <th>Run Every</th>
+		        <th>Column Name</th>
+		        <th>Threshold</th>
+		        <th>Type</th>
+		        <th>Recipients</th>
+		        <th>Last Run</th>
+		        <th>Select</th>
+		        </tr>
+		        </thead>
+
+		        <tbody>
+		    	<tr ng-repeat="itr in parent.jobs_list">
+		        <td  style="word-wrap: break-word;max-width:160px;">{{itr.key}}</td>
+		        <td  style="word-wrap: break-word;max-width:160px;">{{itr.at}}</td>
+		        <td  style="word-wrap: break-word;max-width:160px;">{{itr.column_name}}</td>
+		        <td  style="word-wrap: break-word;max-width:160px;">{{itr.threshold}}</td>
+		        <td  style="word-wrap: break-word;max-width:160px;">{{itr.job_type}}</td>
+		        <td  style="word-wrap: break-word;max-width:160px;">{{itr.recipient}}</td>
+		        <td  style="word-wrap: break-word;max-width:160px;">{{itr.last_run == ''?'Not yet run':itr.last_run}}</td>
+		        <td style=""><input class="padded" name="group" type="radio" ng-model='parent.check' value="{{itr.key}}" ng-change="showQuery(itr)"> </td>
+		        </tr>
+		        </tbody>
+	        </table>
+	        </div>
+	        	<br>
+
+	        	<div class="form-group">
+	    	  	<div class="col-lg-3 col-lg-offset-9">
+	        	<button type="button" class="btn btn-default" ng-click= "is_active = true;editAlert()">Edit Alert </button>
+	        	<button type="button" class="btn btn-default" style="margin-left:15px;" ng-click="rmAlert()">Remove Alert </button>
+	      		</div>
+	    		</div>
+
+	    		<br>
+	    		<br>
+
+	        	<div class="form-group">
+	      		<div class="col-lg-12">
+	        	<textarea class="form-control" rows="8" id="textArea" ng-model="parent.view_query"></textarea>
+	        	<span class="help-block">Scheduled alert for [ ' {{parent.sel_column_name}} ' ] in this query</span>
+	      		</div>
+	    		</div>
+		</tab>
+
+		</tab>
+
+		<!-- END ALERTS TAB -->
+		<!-- END ALERTS TAB -->
+
+	</tabset>
+	</fieldset>
+</div>
+{% endraw %}
+</body>
+</html>
+

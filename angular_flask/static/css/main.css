@@ -1,0 +1,838 @@
+/*
+ * Base structure
+ */
+
+ /* Move down content because we have a fixed navbar that is 50px tall */
+
+ body {
+  padding-top: 0px;
+  font-size: 11px;
+}
+
+body a {
+  color: #2b90d9;
+}
+
+.form-control {
+  font-size: 12px;
+  vertical-align: middle;
+  height: 32px;
+}
+
+.btn {
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #484848;
+  font-size: 11px;
+}
+
+.btn-primary {
+  background-color: #2b90d9;
+  color: #fff;
+}
+
+.custom-select {
+    width: 240px !important;
+    /*float: left !important;*/
+    /*margin-left: -100px !important;*/
+    text-transform: none !important;
+}
+
+.dropd .btn-default {
+  background: #fff !important;
+  color: #6f6f6f;
+  border: none;
+}
+
+/* Overriding colors */
+
+
+/*
+ * Global add-ons
+ */
+
+ .sub-header {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+/*
+ * Top navigation
+ * Hide default border to remove 1px line.
+ */
+ .navbar-fixed-top {
+  border: 0;
+  border-bottom: 1px solid #efefef;
+}
+
+.navbar-default .dropdown-menu > li > a:hover,
+.navbar-default .dropdown-menu > .active > a,
+.navbar-default .dropdown-menu > .active > a:hover {
+  background-color: #212931;
+}
+
+.navbar-default .navbar-nav>.open>a,
+.navbar-default .navbar-nav>.open>a:hover,
+.navbar-default .navbar-nav>.open>a:focus {
+  background-color: #212931;
+
+}
+
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  color: #ffffff;
+  background-color: #212931;
+}
+
+.navbar-default,
+.navbar-default .dropdown-menu {
+  background-color: #333f4c;
+}
+
+.navbar-default {
+  zoom: 0.8;
+}
+/*
+ * Sidebar
+ */
+
+
+ /* Hide for mobile, show later */
+ .sidebar {
+  display: none;
+}
+@media (min-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 37px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    background-color: white;
+    border-right: 1px solid #eee;
+  }
+}
+
+/* Sidebar navigation */
+.nav-sidebar {
+  margin-right: -21px; /* 20px padding + 1px border */
+  /*margin-bottom: 20px;*/
+  margin-left: -20px;
+  font-size: 12px;
+}
+.nav-sidebar > li > a {
+  padding-right: 20px;
+  padding-left: 20px;
+}
+.nav-sidebar > .active > a,
+.nav-sidebar > .active > a:hover,
+.nav-sidebar > .active > a:focus {
+  color: #fff;
+  background-color: #428bca;
+}
+
+.nav-sidebar .padded {
+  margin: 0px;
+  margin-left: 10px;
+  margin-bottom: -15px;
+}
+
+.nav-sidebar .bolded {
+  text-transform: uppercase;
+  color: gray;
+  font-size: 9px;
+  font-weight: bold;
+
+}
+
+.sidebar { overflow:hidden; }
+.sidebar:hover { overflow-y:scroll; }
+
+.sidebar .float-sidebar {
+  background: white;
+  padding: 10px;
+  padding-bottom: 5px;
+  position: fixed;
+  width: 16.5%;
+  height: 100px;
+  margin-top: -20px;
+  margin-left: -20px;
+  z-index: 1000;
+  border-bottom: 1px solid #efefef;
+}
+
+.sidebar .fixed-list-overflow {
+  margin-left: 0px;
+  width: 95%;
+  overflow-right: hidden;
+}
+
+.sidebar .wider {
+
+}
+
+.sidebar .spaced-small {
+  display: block;
+  padding: 3px 0px;
+  font-size: 11px;
+}
+
+.sidebar .caps-and-bold {
+  text-transform: uppercase !important;
+  font-size: 10px !important;
+  font-weight: bold !important;
+}
+
+.dim-styles {
+  background: #f9f9f9;
+  padding: 0px;
+  border: none;
+  padding: 0px;
+  box-shadow: none;
+  margin: 10px 0px 0px 0px;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.no-margin {
+  margin: 0px;
+}
+
+.no-padding {
+  padding: 0px;
+}
+
+.sidebar .panel-body {
+  padding: 5px;
+  margin-left: 10px;
+  width: 105%;
+  background-color: #f9f9f9;
+}
+
+.sidebar .panel-heading {
+  background: white !important;
+  width: 110%;
+}
+
+.sidebar .checklist span {
+  line-height: normal;
+  position: relative;
+  top: -2.5px;
+  padding-left: 1px;
+}
+
+/*
+ * Main content
+ */
+
+ .main {
+  padding: 20px;
+}
+@media (min-width: 768px) {
+  .main {
+    /*padding-right: 40px;
+    padding-left: 40px;*/
+    margin-left:190px;
+  }
+}
+
+.main .page-header {
+  margin-top: 0;
+}
+
+.container {
+  margin-top: 40px;
+}
+
+.container .top-legend label {
+  margin-right: 8px;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.nav-pills > li > a {
+  color: #555555;
+}
+
+.nav-pills > .active > a {
+  background-color: #A8A8A8;
+}
+/*
+ * Placeholder dashboard ideas
+ */
+
+ .placeholders {
+  margin-bottom: 30px;
+  text-align: center;
+}
+.placeholders h4 {
+  margin-bottom: 0;
+}
+.placeholder {
+  margin-bottom: 2  0px;
+}
+.placeholder img {
+  display: inline-block;
+  border-radius: 50%;
+}
+
+.dropd {
+  position: relative;
+  width: 200px;
+  display: block;
+  margin-bottom: 10px;
+  /*
+  -webkit-appearance: none;
+  -webkit-border-radius: 0px;
+  */
+  border: 0;
+  outline: 1px solid #CCC;
+  background-color: white;
+}
+
+.dropd:active, .dropd:focus {
+  border: 0;
+  outline: 1px solid #CCC;
+  background-color: white;
+
+}
+
+/* Overriding date-range filter */
+
+.date-range {
+  background: #fff;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 11px;
+  cursor: pointer;
+  padding: 8px 10px;
+  width: 70%;
+  margin-left: 4px;
+  float: left;
+  height: 34px;
+  margin-top: -1px;
+  width: 300px;
+}
+
+.daterangepicker .ranges li.active,
+.daterangepicker .ranges li:hover,
+.daterangepicker .ranges li {
+  border-radius: 0px;
+  font-size: 12px;
+
+}
+
+.daterangepicker .ranges .input-mini {
+    border-radius: 0px;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+
+.qwhere {
+  position: absolute;
+  width: 430px;
+  height: auto;
+  margin: 0px 2px 0px 0px;
+  /*padding: 10px;*/
+  z-index: 55;
+  margin-top: -1px;
+}
+
+.marginator {
+  margin-top: 60px;
+  margin-left: 20px;
+}
+
+.tab-marginator {
+  margin-top: 60px;
+}
+
+.chart_svg {
+  height: 190px;
+  min-width: 100px;
+  min-height: 100px;
+/*
+  Minimum height and width is a good idea to prevent negative SVG dimensions...
+  For example width should be =< margin.left + margin.right + 1,
+  of course 1 pixel for the entire chart would not be very useful, BUT should not have errors
+  */
+}
+
+.percentage-mertics {
+  text-align: center !important;
+  display: block;
+  width: 100px !important;
+  position: relative !important;
+  margin-left: auto;
+  margin-right: auto;
+  left: 10px;
+  padding-bottom: 4.5% !important;
+}
+
+.percoverlay {
+  display: block;
+  /*width: 100%;*/
+  /*height: 100%;*/
+  text-align: center;
+  vertical-align: middle;
+  position: absolute;
+  /*top: 0px;*/
+  /*left: 0px;*/
+  font-size: 50px;
+}
+
+.totcnt {
+  font-size:16px;
+  font-size:16px;
+  padding-top:120px;
+}
+
+.avgsucc{
+  font-size: 22px;
+  font-weight: 300;
+  text-align: center;
+}
+
+.cnt{
+  padding-top: 60px;
+}
+
+.fixed-width {
+  table-layout: fixed;
+  word-wrap: break-word;
+
+}
+
+.text-align-center {
+  text-align: center;
+  font-size: 11px;
+}
+
+.scaled-small table tr td {
+  padding: 5px;
+  vertical-align: middle;
+}
+
+.table-responsive .max-ellipsis {
+  text-overflow: ellipsis;
+  max-width: 15%;
+  overflow-x: hidden;
+}
+
+.wrap-ellipsis
+{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-height: 30px;
+  max-width: 230px;
+}
+/*for angular bootstrap that doesn't support empty # links*/
+/*.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+.pagination {
+  display: inline-block;
+  padding-left: 0;
+  margin: 20px 0;
+  border-radius: 4px;
+}
+.pagination > li {
+  display: inline;
+}
+.pagination > li > a,
+.pagination > li > span {
+  position: relative;
+  float: left;
+  padding: 6px 12px;
+  margin-left: -1px;
+  line-height: 1.42857143;
+  color: #3e3f3a;
+  text-decoration: none;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+.pagination > li:first-child > a,
+.pagination > li:first-child > span {
+  margin-left: 0;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+.pagination > li:last-child > a,
+.pagination > li:last-child > span {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+.pagination > li > a:hover,
+.pagination > li > span:hover,
+.pagination > li > a:focus,
+.pagination > li > span:focus {
+  color: #23527c;
+  background-color: #eee;
+  border-color: #ddd;
+}
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+  z-index: 2;
+  color: #fff;
+  cursor: default;
+  background-color: #3e3f3a;
+  border-color: #3e3f3a;
+}
+.pagination > .disabled > span,
+.pagination > .disabled > span:hover,
+.pagination > .disabled > span:focus,
+.pagination > .disabled > a,
+.pagination > .disabled > a:hover,
+.pagination > .disabled > a:focus {
+  color: #777;
+  cursor: not-allowed;
+  background-color: #fff;
+  border-color: #ddd;
+}
+
+.pagination-sm > li > a,
+.pagination-sm > li > span {
+  padding: 5px 10px;
+  font-size: 12px;
+}
+.pagination-sm > li:first-child > a,
+.pagination-sm > li:first-child > span {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.pagination-sm > li:last-child > a,
+.pagination-sm > li:last-child > span {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  }*/
+
+  .pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {
+    background-color: #2b90d9;
+  }
+
+  .loader img
+  {
+    width: 50;
+    height: 50;
+    content: url('/static/img/loader.gif');
+  }
+
+  .segment-modal-window .modal-dialog {
+    width: 93%;
+    height: 80%;
+  }
+
+  .segment-modal-window .modal-header{
+    border: 0px;
+  }
+  .godel-segment-metric-tooltip {
+    top:30px !important;
+  }
+
+  .loader {
+  height: 30px;
+  width: 30px;
+  text-align: center;
+  display: inline-block;
+  vertical-align: top;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5px;
+}
+
+/*
+  Set the color of the icon
+*/
+.loader svg path,
+.loader svg rect{
+  fill: #FF6700;
+}
+
+
+
+  .sort-true {
+   background:no-repeat right center url(data:image/gif;base64,R0lGODlhCgAKALMAAHFxcYKCgp2dnaampq+vr83NzeHh4f///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAAAgAIf/8SUNDUkdCRzEwMTIAAAUwYXBwbAIgAABtbnRyUkdCIFhZWiAH2QACABkACwAaAAthY3NwQVBQTAAAAABhcHBsAAAAAAAAAAAAAAAAAAAAAAAA9tYAAQAAAADTLWFwcGwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAtkc2NtAAABCAAAAvJkZXNjAAAD/AAAAG9nWFlaAAAEbAAAABR3dHB0AAAEgAAAABRyWFlaAAAElAAAABRiWFlaAAAEqAAAABRyVFJDAAAEvAAAAA5jcHJ0AAAEzAAAADhjaGFkAAAFBAAAACxn/1RSQwAABLwAAAAOYlRSQwAABLwAAAAObWx1YwAAAAAAAAARAAAADGVuVVMAAAAmAAACfmVzRVMAAAAmAAABgmRhREsAAAAuAAAB6mRlREUAAAAsAAABqGZpRkkAAAAoAAAA3GZyRlUAAAAoAAABKml0SVQAAAAoAAACVm5sTkwAAAAoAAACGG5iTk8AAAAmAAABBHB0QlIAAAAmAAABgnN2U0UAAAAmAAABBGphSlAAAAAaAAABUmtvS1IAAAAWAAACQHpoVFcAAAAWAAABbHpoQ04AAAAWAAAB1HJ1UlUAAAAiAAACpHBsUEwAAAAsAAACxgBZAGwAZQBpAG4AZf8AbgAgAFIARwBCAC0AcAByAG8AZgBpAGkAbABpAEcAZQBuAGUAcgBpAHMAawAgAFIARwBCAC0AcAByAG8AZgBpAGwAUAByAG8AZgBpAGwAIABHAOkAbgDpAHIAaQBxAHUAZQAgAFIAVgBCTgCCLAAgAFIARwBCACAw1zDtMNUwoTCkMOuQGnUoACAAUgBHAEIAIIJyX2ljz4/wAFAAZQByAGYAaQBsACAAUgBHAEIAIABHAGUAbgDpAHIAaQBjAG8AQQBsAGwAZwBlAG0AZQBpAG4AZQBzACAAUgBHAEIALQBQAHIAbwBmAGkAbGZukBoAIABSAEcAQgAgY8+P8GX/h072AEcAZQBuAGUAcgBlAGwAIABSAEcAQgAtAGIAZQBzAGsAcgBpAHYAZQBsAHMAZQBBAGwAZwBlAG0AZQBlAG4AIABSAEcAQgAtAHAAcgBvAGYAaQBlAGzHfLwYACAAUgBHAEIAINUEuFzTDMd8AFAAcgBvAGYAaQBsAG8AIABSAEcAQgAgAEcAZQBuAGUAcgBpAGMAbwBHAGUAbgBlAHIAaQBjACAAUgBHAEIAIABQAHIAbwBmAGkAbABlBB4EMQRJBDgEOQAgBD8EQAQ+BEQEOAQ7BEwAIABSAEcAQgBVAG4AaQB3AGUAcgBzAGEAbABuAHkAIABwAHIAbwBm/wBpAGwAIABSAEcAQgAAZGVzYwAAAAAAAAAUR2VuZXJpYyBSR0IgUHJvZmlsZQAAAAAAAAAAAAAAFEdlbmVyaWMgUkdCIFByb2ZpbGUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFhZWiAAAAAAAABadQAArHMAABc0WFlaIAAAAAAAAPNSAAEAAAABFs9YWVogAAAAAAAAdE0AAD3uAAAD0FhZWiAAAAAAAAAoGgAAFZ8AALg2Y3VydgAAAAAAAAABAc0AAHRleHQAAAAAQ29weXJpZ2h0IDIwMDcgQXBwbGUgSW5jLkMsIGFsbCByaWdodHMgcmVzZXJ2ZWQuAHNmMzIAAAAAAAEMQgAABd7///MmAAAHkgAA/ZH///ui///9owAAA9wAAMBsACwAAAAACgAKAAAEJZAMIcakQZjNtyhFxwEIIRofAookUnapu26t+6KFLYe1TgQ5VwQAOw%3D%3D);
+ }
+ .sort-false {
+  background:no-repeat right center url(data:image/gif;base64,R0lGODlhCgAKALMAAHFxcYKCgp2dnaampq+vr83NzeHh4f///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAAAgAIf/8SUNDUkdCRzEwMTIAAAUwYXBwbAIgAABtbnRyUkdCIFhZWiAH2QACABkACwAaAAthY3NwQVBQTAAAAABhcHBsAAAAAAAAAAAAAAAAAAAAAAAA9tYAAQAAAADTLWFwcGwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAtkc2NtAAABCAAAAvJkZXNjAAAD/AAAAG9nWFlaAAAEbAAAABR3dHB0AAAEgAAAABRyWFlaAAAElAAAABRiWFlaAAAEqAAAABRyVFJDAAAEvAAAAA5jcHJ0AAAEzAAAADhjaGFkAAAFBAAAACxn/1RSQwAABLwAAAAOYlRSQwAABLwAAAAObWx1YwAAAAAAAAARAAAADGVuVVMAAAAmAAACfmVzRVMAAAAmAAABgmRhREsAAAAuAAAB6mRlREUAAAAsAAABqGZpRkkAAAAoAAAA3GZyRlUAAAAoAAABKml0SVQAAAAoAAACVm5sTkwAAAAoAAACGG5iTk8AAAAmAAABBHB0QlIAAAAmAAABgnN2U0UAAAAmAAABBGphSlAAAAAaAAABUmtvS1IAAAAWAAACQHpoVFcAAAAWAAABbHpoQ04AAAAWAAAB1HJ1UlUAAAAiAAACpHBsUEwAAAAsAAACxgBZAGwAZQBpAG4AZf8AbgAgAFIARwBCAC0AcAByAG8AZgBpAGkAbABpAEcAZQBuAGUAcgBpAHMAawAgAFIARwBCAC0AcAByAG8AZgBpAGwAUAByAG8AZgBpAGwAIABHAOkAbgDpAHIAaQBxAHUAZQAgAFIAVgBCTgCCLAAgAFIARwBCACAw1zDtMNUwoTCkMOuQGnUoACAAUgBHAEIAIIJyX2ljz4/wAFAAZQByAGYAaQBsACAAUgBHAEIAIABHAGUAbgDpAHIAaQBjAG8AQQBsAGwAZwBlAG0AZQBpAG4AZQBzACAAUgBHAEIALQBQAHIAbwBmAGkAbGZukBoAIABSAEcAQgAgY8+P8GX/h072AEcAZQBuAGUAcgBlAGwAIABSAEcAQgAtAGIAZQBzAGsAcgBpAHYAZQBsAHMAZQBBAGwAZwBlAG0AZQBlAG4AIABSAEcAQgAtAHAAcgBvAGYAaQBlAGzHfLwYACAAUgBHAEIAINUEuFzTDMd8AFAAcgBvAGYAaQBsAG8AIABSAEcAQgAgAEcAZQBuAGUAcgBpAGMAbwBHAGUAbgBlAHIAaQBjACAAUgBHAEIAIABQAHIAbwBmAGkAbABlBB4EMQRJBDgEOQAgBD8EQAQ+BEQEOAQ7BEwAIABSAEcAQgBVAG4AaQB3AGUAcgBzAGEAbABuAHkAIABwAHIAbwBm/wBpAGwAIABSAEcAQgAAZGVzYwAAAAAAAAAUR2VuZXJpYyBSR0IgUHJvZmlsZQAAAAAAAAAAAAAAFEdlbmVyaWMgUkdCIFByb2ZpbGUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFhZWiAAAAAAAABadQAArHMAABc0WFlaIAAAAAAAAPNSAAEAAAABFs9YWVogAAAAAAAAdE0AAD3uAAAD0FhZWiAAAAAAAAAoGgAAFZ8AALg2Y3VydgAAAAAAAAABAc0AAHRleHQAAAAAQ29weXJpZ2h0IDIwMDcgQXBwbGUgSW5jLkMsIGFsbCByaWdodHMgcmVzZXJ2ZWQuAHNmMzIAAAAAAAEMQgAABd7///MmAAAHkgAA/ZH///ui///9owAAA9wAAMBsACwAAAAACgAKAAAEJRBJREKZsxQDsCSGIVzZFnYTGIqktp7fG46uzAn2TAyCMPC9QAQAOw%3D%3D);
+}
+
+
+.nvtooltip h4,h5,h6 {
+  margin: 0;
+  padding: 4px 14px;
+  line-height: 18px;
+  font-size: 10px;
+  font-weight: normal;
+  background-color: rgba(247,247,247,0.75);
+  text-align: center;
+  border-bottom: 1px solid #ebebeb;
+  -webkit-border-radius: 5px 5px 0 0;
+  -moz-border-radius: 5px 5px 0 0;
+  border-radius: 5px 5px 0 0;
+}
+
+.popover-content {
+  word-wrap: break-word;
+}
+
+.y1.axis path {
+  display: none;
+}
+
+.y1.axis .tick {
+  opacity: .2;
+}
+.block{
+  display: block;
+}
+
+/*Overriding tabs/tabset*/
+.nav-tabs {
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  min-height: 46px;
+  background: #ffffff;
+
+}
+
+.tabbable {
+  position: relative;
+  padding: 0 30px;
+}
+
+.ui-tabs-scrollable .nav-tabs > li {
+ float: none;
+ display: inline-block;
+ margin: 0.5px;
+ margin-bottom: 5px;
+ border: none;
+ position: relative;
+ height: 400px;
+
+}
+
+
+/*
+  Allow angular.js to be loaded in body, hiding cloaked elements until
+  templates compile.  The !important is important given that there may be
+  other selectors that are more specific or come later and might alter display.
+  */
+  [ng\:cloak], [ng-cloak], .ng-cloak {
+    display: none !important;
+  }
+
+
+  .alert-float-top {
+    position: fixed;
+    width: 80%;
+    box-sizing: border-box;
+    z-index: 9999;
+  }
+
+  .footer-small {
+    /*text-align: center;*/
+    margin-top: 30px;
+    margin-bottom: 1px;
+    font-size: 8px;
+    color: gray;
+
+  }
+
+
+
+  /*dygraphstyles*/
+
+  .dygraph-legend {
+    text-align: right;
+    padding-right: 10px;
+    font-size: 12px;
+  }
+.dygraph-axis-label-y, .dygraph-axis-label-y1,
+.dygraph-axis-label-x {
+  font-size: 11px;
+}
+
+  /*google chart styles */
+  #chart_div_AnnotationChart_borderDiv {
+    border: none !important;
+  }
+
+  #chart_div_AnnotationChart_chartContainer{
+    text-anchor: start !important;
+  }
+
+  #chart_div_AnnotationChart_legendContainer{
+    font-size:12px;
+  }
+
+  #chart_div_AnnotationChart_zoomControlContainer{
+    font-size:0px;
+  }
+  #chart_div button {
+    background: white;
+    border: 1px solid #B3B3B5;
+    margin-right: 3px;
+    border-radius: 2px;
+    padding: 2px 6px;
+  }
+
+  .piechart{
+    padding-left: 0px;
+  }
+
+
+  @media screen and (max-width: 767px) {
+   .piechart {
+    padding-left: 4%;
+
+  }
+
+}
+
+@media screen and (max-width: 380px) {
+ .piechart {
+  padding-left: 3%;
+
+}
+
+}
+
+/*roundedradio*/
+
+/*.roundedOne {
+  width: 28px;
+  height: 28px;
+  position: relative;
+  margin: 20px auto;
+  background: #fcfff4;
+  background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+  border-radius: 50px;
+  box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+  label {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    position: absolute;
+    left: 4px;
+    top: 4px;
+    background: linear-gradient(top, #222 0%, #45484d 100%);
+    border-radius: 50px;
+    box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+    &:after {
+      content: '';
+      width: 16px;
+      height: 16px;
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      background: $activeColor;
+      background: linear-gradient(top, $activeColor 0%, $darkenColor 100%);
+      opacity: 0;
+      border-radius: 50px;
+      box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+    }
+    &:hover::after {
+      opacity: 0.3;
+    }
+  }
+  input[type=checkbox] {
+    visibility: hidden;
+    &:checked + label:after {
+      opacity: 1;
+    }
+  }
+}*/
+
+/* style for sankey */
+.node rect {
+  cursor: move;
+  fill-opacity: 0.6;
+  shape-rendering: crispEdges;
+}
+
+.node text {
+  pointer-events: none;
+  text-shadow: 0 1px 0 #fff;
+/*  font-family: "Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif;*/
+}
+
+.link {
+  fill: none;
+  stroke: #000;
+  stroke-opacity: .2;
+}
+
+.cycleLink {
+  fill: #600;
+  opacity: .2;
+  stroke: none;
+  stroke-linejoin: "round";
+}
+.cycleLink:hover {
+  opacity: .5;
+}
+.link:hover {
+  stroke-opacity: .5;
+}
+
+
+
+
+
+
+
+
+
+
+/*/*nvd3 donutpie*/
+
+
+
+@import url(http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic);
+/*
+* {
+  font-family: Lato;
+}
+*/
+/*.content h1 {
+  font-weight: 300;
+  text-align: center;
+}
+*/
+#donutsvg {
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
+
+.text.middle {
+    /*font-family: Lato;*/
+    font-weight: 300;
+    font-size: 24px;
+  }
+  
+  .nvd3.nv-pie .nv-pieLabels text {
+    /*font-family: Lato;*/
+    font-size: 18px;
+    font-weight: 300;
+    fill: #fff !important;
+  }
+}
+
+
+
+
+
+
+
+
+
